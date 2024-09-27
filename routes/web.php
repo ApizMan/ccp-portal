@@ -36,7 +36,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', function () {
-        return view('welcome');
+        return view('home.dashboard');
     })->name('home');
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
