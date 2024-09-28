@@ -12,13 +12,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
-
+    @php
+        include_once app_path('constants.php');
+        $logo = CCP_LOGO;
+    @endphp
 </head>
 
 <body>
     <center style="margin-top: 100px;">
         <div class="card" style="width: 25rem; padding-top: 50px; padding-bottom: 20px;">
-            <img src="{{ config('constants.CCP_LOGO') }}" alt="CCP Logo" style="padding-left: 20%; padding-right: 20%;">
+            <img src="{{ $logo }}" alt="CCP Logo" style="padding-left: 20%; padding-right: 20%;">
             <div class="card-body">
                 <h1>Your New Password</h1>
                 <p>Your new password is: <strong>{{ $password }}</strong></p>

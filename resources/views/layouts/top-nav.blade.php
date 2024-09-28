@@ -1,7 +1,11 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    @php
+        include_once app_path('constants.php');
+        $logo = CCP_LOGO_WHITE;
+    @endphp
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-5" href="{{ route('home') }}"><img src="{{ config('constants.CCP_LOGO_WHITE') }}"
-            alt="logo" width="100" height="50"></a>
+    <a class="navbar-brand ps-5" href="{{ route('home') }}"><img src="{{ $logo }}" alt="logo" width="100"
+            height="50"></a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i></button>
