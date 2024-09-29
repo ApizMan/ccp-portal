@@ -18,12 +18,29 @@
         '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#292b2b';
 
+    // Sort labels and counts based on chronological order
+    let labels = @json($parking['labels']);
+    let counts = @json($parking['counts']);
+
+    // Create an array of objects to sort both labels and counts simultaneously
+    let sortedData = labels.map((label, index) => ({
+        label,
+        count: counts[index]
+    }));
+
+    // Define a sorting function for month-year format labels
+    sortedData.sort((a, b) => new Date(a.label) - new Date(b.label));
+
+    // Separate the sorted data back into labels and counts arrays
+    labels = sortedData.map(item => item.label);
+    counts = sortedData.map(item => item.count);
+
     // Area Chart Example
     var ctx = document.getElementById("myAreaChart");
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: @json($parking['labels']), // Pass labels from Livewire component
+            labels: labels, // Use sorted labels
             datasets: [{
                 label: "Parking Transactions",
                 lineTension: 0.3,
@@ -36,7 +53,7 @@
                 pointHoverBackgroundColor: "rgba(2,117,216,1)",
                 pointHitRadius: 50,
                 pointBorderWidth: 2,
-                data: @json($parking['counts']), // Pass counts from Livewire component
+                data: counts, // Use sorted counts
             }],
         },
         options: {
@@ -55,8 +72,7 @@
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: Math.max(...@json($parking['counts'])) +
-                            100, // Set max based on counts
+                        max: Math.max(...counts), // Set max based on sorted counts
                         maxTicksLimit: 5
                     },
                     gridLines: {

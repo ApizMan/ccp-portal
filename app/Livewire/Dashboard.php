@@ -23,7 +23,7 @@ class Dashboard extends Component
 
     public function parkingPart()
     {
-        $url = LOCAL_URL . '/parking/public';
+        $url = BASE_URL . '/parking/public';
         $data = file_get_contents($url);
         $decodedData = json_decode($data, true); // true for associative array
 
