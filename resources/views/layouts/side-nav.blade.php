@@ -16,7 +16,7 @@
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="">Parking</a>
+                        <a class="nav-link" href="{{ route('parking.parking_public') }}">Parking</a>
                         <a class="nav-link" href="">Compound</a>
                         <a class="nav-link" href="">Monthly Pass</a>
                         <a class="nav-link" href="">Reserve Bay</a>

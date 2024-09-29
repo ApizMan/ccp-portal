@@ -16,7 +16,7 @@
                 </ol>
                 <div class="row">
 
-                    @include('charts.parking-chart')
+                    @include('charts.parking-chart', ['parking' => $parking])
 
                     @include('charts.compound-chart')
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
+use App\Http\Controllers\ParkingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,9 @@ Route::group(['middleware' => 'auth'], function () {
         return view('home.dashboard');
     })->name('home');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    // Parking
+    Route::prefix('parking')->name('parking.')->group(function () {
+        Route::get('/', [ParkingController::class, 'index'])->name('parking_public');
+    });
 });
