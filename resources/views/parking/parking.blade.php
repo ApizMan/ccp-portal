@@ -2,40 +2,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parking Data</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Parking</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Include CSS -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+    @livewireStyles
 </head>
 
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Parking Data</h1>
+<body class="sb-nav-fixed">
 
-        @if (!empty($decodedData) && is_array($decodedData))
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Location</th>
-                        <th>Price</th>
-                        <!-- Add other headers based on your data structure -->
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($decodedData as $item)
-                        <tr>
-                            <td>{{ $item['id'] }}</td>
-                            <!-- Add other data fields based on your data structure -->
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <p>No data available.</p>
-        @endif
-    </div>
+    <!-- Include the Navbar -->
+    @include('layouts.top-nav')
+
+    <livewire:parking />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/demo/chart-bar-demo.js') }}"></script>
+    <script src="{{ asset('assets/demo/chart-pie-demo.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
+    @livewireScripts
 </body>
 
 </html>
