@@ -20,7 +20,7 @@
 
                     @include('charts.compound-chart')
 
-                    @include('charts.monthly-pass-chart')
+                    @include('charts.monthly-pass-chart', ['monthlyPass' => $monthlyPassData])
 
                     @include('charts.reserve-bay-chart')
                 </div>

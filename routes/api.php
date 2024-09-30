@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\MonthlyPassController;
 use App\Http\Controllers\Api\ParkingController;
 use App\Http\Controllers\Api\RequestPasswordController;
 use Illuminate\Http\Request;
@@ -23,5 +24,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Parking
     Route::prefix('parking')->name('parking.')->group(function () {
         Route::get('/', [ParkingController::class, 'index'])->name('parking_public');
+    });
+
+    // Monthly Pass
+    Route::prefix('monthlyPass')->name('monthlyPass.')->group(function () {
+        Route::get('/', [MonthlyPassController::class, 'index'])->name('monthly_pass_public');
     });
 });

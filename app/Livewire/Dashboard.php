@@ -13,13 +13,17 @@ class Dashboard extends Component
     public $favicon;
     public $parking;
 
+    public $monthlyPassData;
+
     public function mount()
     {
+        $this->monthlyPassPart();
         $this->parkingPart();
         $this->logo = CCP_LOGO;
         $this->logo_white = CCP_LOGO_WHITE;
         $this->favicon = FAVICON;
     }
+
 
     public function parkingPart()
     {
@@ -60,6 +64,50 @@ class Dashboard extends Component
 
         $this->parking['labels'] = $labels;
         $this->parking['counts'] = $counts;
+    }
+
+    public function monthlyPassPart()
+    {
+        $url = BASE_URL . '/monthlyPass/public';
+        $data = file_get_contents($url);
+        $decodedData = json_decode($data, true); // true for associative array
+
+        // Initialize arrays to store data for the chart
+        $labels = [];
+        $counts = [];
+
+        // Define colors for each duration
+        $durationColors = [
+            '1 Month' => '#007bff',   // Blue
+            '3 Months' => '#dc3545',  // Red
+            '12 Months' => '#28a745',  // Green
+        ];
+
+        // Loop through the data and count occurrences by location and duration
+        foreach ($decodedData as $entry) {
+            $location = $entry['location'];
+            $duration = $entry['duration'];
+
+            // Initialize label and count for this location and duration
+            if (!isset($counts[$location][$duration])) {
+                $counts[$location][$duration] = 0;
+            }
+
+            // Increment the count for this location and duration
+            $counts[$location][$duration]++;
+        }
+
+        // Prepare the data for the chart
+        foreach ($counts as $location => $durations) {
+            foreach ($durations as $duration => $count) {
+                $labels[] = $location; // Use the location as the label
+                $this->monthlyPassData['amounts'][] = $count; // Count for this location and duration
+                $this->monthlyPassData['colors'][] = $durationColors[$duration] ?? '#6c757d'; // Default color
+            }
+        }
+
+        // Assign labels and amounts
+        $this->monthlyPassData['labels'] = array_unique($labels); // Unique locations
     }
 
     public function render()
