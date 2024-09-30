@@ -24,35 +24,31 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th>Plate Number</th>
+                                    <th>PBT</th>
+                                    <th>Location</th>
+                                    <th>Amount (RM)</th>
+                                    <th>Status</th>
+                                    <th>Created At</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 @if (count($datas) > 0)
-                                    @foreach ($datas as $d)
+                                    @foreach ($datas as $data)
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <td>{{ $data['user']['firstName'] }} {{ $data['user']['secondName'] }}</td>
+                                            <td>{{ $data['plateNumber'] }}</td>
+                                            <td>{{ $data['pbt'] }}</td>
+                                            <td>{{ $data['location'] }}</td>
+                                            <td>{{ number_format($data['transaction']['amount'], 2) }}</td>
+                                            <td>{{ strtoupper($data['transaction']['status']) }}</td>
+                                            <td>{{ $data['createdAt'] }}</td>
                                         </tr>
                                     @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="7" class="text-center">No data found</td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
