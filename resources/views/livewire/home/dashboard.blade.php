@@ -22,7 +22,7 @@
 
                     @include('charts.monthly-pass-chart', ['monthlyPass' => $monthlyPassData])
 
-                    @include('charts.reserve-bay-chart')
+                    @include('charts.reserve-bay-chart', ['reserveBay' => $reserveBayData])
                 </div>
                 <div class="card mb-4">
                     <div class="card-header">
