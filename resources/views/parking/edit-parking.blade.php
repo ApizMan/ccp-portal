@@ -25,7 +25,7 @@
     <!-- Include the Navbar -->
     @include('layouts.top-nav')
 
-    @livewire('parking.parking')
+    @livewire('parking.edit-parking', ['parkingData' => $decodedData, 'parkingId' => $parkingId])
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>

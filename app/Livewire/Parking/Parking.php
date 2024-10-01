@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Parking;
 
 use DateTime;
 use Livewire\Component;
@@ -80,6 +80,6 @@ class Parking extends Component
 
     public function render()
     {
-        return view('livewire.parking');
+        return view('livewire.parking.parking');
     }
 }

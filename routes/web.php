@@ -44,5 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Parking
     Route::prefix('parking')->name('parking.')->group(function () {
         Route::get('/', [ParkingController::class, 'index'])->name('parking_public');
+        Route::get('/{id}', [ParkingController::class, 'edit'])->name(name: 'parking_edit');
+        Route::put('/update/{id}/{transactionId}', [ParkingController::class, 'update'])->name(name: 'parking_update');
+        Route::delete('/delete/{id}', [ParkingController::class, 'destroy'])->name(name: 'parking_delete');
     });
 });
