@@ -29,15 +29,15 @@ class Parking extends Component
 
     public function fetchData()
     {
-        $url = BASE_URL . '/parking/public';
+        $url = env('BASE_URL') . '/parking/public';
         $data = file_get_contents($url);
         $this->data_parking = json_decode($data, true); // true for associative array
 
-        $url = BASE_URL . '/auth/users';
+        $url = env('BASE_URL') . '/auth/users';
         $data = file_get_contents($url);
         $this->data_users = json_decode($data, true); // true for associative array
 
-        $url = BASE_URL . '/transaction/allTransactionWallet';
+        $url = env('BASE_URL') . '/transaction/allTransactionWallet';
         $data = file_get_contents($url);
         $this->data_transactions = json_decode($data, true); // true for associative array
 

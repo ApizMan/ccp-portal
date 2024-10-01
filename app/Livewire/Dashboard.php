@@ -29,7 +29,7 @@ class Dashboard extends Component
 
     public function parkingPart()
     {
-        $url = BASE_URL . '/parking/public';
+        $url = env('BASE_URL') . '/parking/public';
         $data = file_get_contents($url);
         $decodedData = json_decode($data, true); // true for associative array
 
@@ -77,7 +77,7 @@ class Dashboard extends Component
 
     public function monthlyPassPart()
     {
-        $url = BASE_URL . '/monthlyPass/public';
+        $url = env('BASE_URL') . '/monthlyPass/public';
         $data = file_get_contents($url);
         $decodedData = json_decode($data, true); // true for associative array
 
@@ -129,7 +129,7 @@ class Dashboard extends Component
 
     public function reserveBayPart()
     {
-        $url = BASE_URL . '/reserveBay/public';
+        $url = env('BASE_URL') . '/reserveBay/public';
         $data = file_get_contents($url);
         $decodedData = json_decode($data, true); // true for associative array
 

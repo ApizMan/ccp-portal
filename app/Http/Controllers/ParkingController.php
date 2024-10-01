@@ -10,7 +10,7 @@ class ParkingController extends Controller
 {
     public function index()
     {
-        $url = BASE_URL . '/parking/public';
+        $url = env('BASE_URL') . '/parking/public';
 
         // Using file_get_contents
         $data = file_get_contents($url);

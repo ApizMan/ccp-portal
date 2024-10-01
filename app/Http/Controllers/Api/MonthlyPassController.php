@@ -11,7 +11,7 @@ class MonthlyPassController extends Controller
 {
     public function index()
     {
-        $url = BASE_URL . '/monthlyPass/public';
+        $url = env('BASE_URL') . '/monthlyPass/public';
 
         // Using file_get_contents
         $data = file_get_contents($url);
