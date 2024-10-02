@@ -87,9 +87,9 @@ class Dashboard extends Component
 
         // Define colors for each duration
         $durationColors = [
-            '1 Month' => '#007bff',   // Blue
-            '3 Months' => '#dc3545',  // Red
-            '12 Months' => '#28a745',  // Green
+            '1 Month' => '#fc7f03',   // Blue
+            '3 Months' => '#0384fc',  // Red
+            '12 Months' => '#fcd703',  // Green
         ];
 
         // Loop through the data and count occurrences by location and duration

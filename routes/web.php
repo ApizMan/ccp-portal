@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
 use App\Http\Controllers\ParkingController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -47,5 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [ParkingController::class, 'edit'])->name(name: 'parking_edit');
         Route::put('/update/{id}/{transactionId}', [ParkingController::class, 'update'])->name(name: 'parking_update');
         Route::delete('/delete/{id}', [ParkingController::class, 'destroy'])->name(name: 'parking_delete');
+    });
+
+    // Settings
+    Route::prefix('setting')->name('setting.')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name(name: 'setting');
+        Route::post('/onboardingKey', [SettingController::class, 'generateKey'])->name('setting_pegeypay');
+        Route::post('/refreshAccessCode', [SettingController::class, 'refreshAccessCode'])->name('setting_pegeypay_refresh');
+        Route::post('/refreshFPX', [SettingController::class, 'refreshFPX'])->name('setting_fpx_refresh');
     });
 });
