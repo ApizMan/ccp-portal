@@ -126,6 +126,33 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Change Password Column -->
+                <div class="card mx-2 mb-4" style="width: 100%;">
+                    <div class="card-body">
+                        <h4 class="card-title">Change Password</h4>
+                        <h6 class="card-subtitle mb-4 text-body-secondary">You can change your password here:</h6>
+                        <form action="{{ route('setting.change_password') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">New Password</span>
+                                <input type="password" name="newPassword" class="form-control"
+                                    placeholder="Enter new password" aria-label="newPassword"
+                                    aria-describedby="basic-addon1" required>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Confirm Password</span>
+                                <input type="password" name="newPassword_confirmation" class="form-control"
+                                    placeholder="Enter confirm new password" aria-label="newPassword_confirmation"
+                                    aria-describedby="basic-addon1" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="float: right;">Change</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </main>
 

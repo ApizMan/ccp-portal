@@ -56,5 +56,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/onboardingKey', [SettingController::class, 'generateKey'])->name('setting_pegeypay');
         Route::post('/refreshAccessCode', [SettingController::class, 'refreshAccessCode'])->name('setting_pegeypay_refresh');
         Route::post('/refreshFPX', [SettingController::class, 'refreshFPX'])->name('setting_fpx_refresh');
+        Route::put('/change-password', [SettingController::class, 'changePassword'])->name('change_password');
     });
 });
