@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class MonthlyPassController extends Controller
@@ -41,6 +44,15 @@ class MonthlyPassController extends Controller
 
         // Check if the parking update was successful
         if ($responseMonthlyPass->successful()) {
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Monthly Pass',
+                'activity' => 'Create',
+                'description' => $user->name . ' created a monthly pass for ' . $validatedMonthlyPass['plateNumber'],
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('monthlyPass.monthly_pass_public')->with('status', 'Monthly Pass information created successfully.');
         } else {
@@ -101,6 +113,15 @@ class MonthlyPassController extends Controller
 
         // Check if the parking update was successful
         if ($responseMonthlyPass->successful()) {
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Monthly Pass',
+                'activity' => 'Edit',
+                'description' => $user->name . ' updated a monthly pass for ' . $validatedMonthlyPass['plateNumber'],
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('monthlyPass.monthly_pass_public')->with('status', 'Monthly Pass information updated successfully.');
         } else {
@@ -122,6 +143,16 @@ class MonthlyPassController extends Controller
 
         // Check if the deletion was successful
         if ($response->successful()) {
+
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Monthly Pass',
+                'activity' => 'Delete',
+                'description' => $user->name . ' deleted a monthly pass',
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('monthlyPass.monthly_pass_public')->with('status', 'Monthly Pass information deleted successfully.');
         } else {

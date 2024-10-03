@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 include_once app_path('constants.php');
@@ -77,6 +80,15 @@ class ParkingController extends Controller
 
         // Check if the parking update was successful
         if ($responseParking->successful() && $responseTransaction->successful()) {
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Parking',
+                'activity' => 'Edit',
+                'description' => $user->name . ' updated a parking for ' . $validatedParking['plateNumber'],
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('parking.parking_public')->with('status', 'Parking information updated successfully.');
         } else {
@@ -99,6 +111,15 @@ class ParkingController extends Controller
 
         // Check if the deletion was successful
         if ($response->successful()) {
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Parking',
+                'activity' => 'Delete',
+                'description' => $user->name . ' deleted a parking',
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('parking.parking_public')->with('status', 'Parking information deleted successfully.');
         } else {

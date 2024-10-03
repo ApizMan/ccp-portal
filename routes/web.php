@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
 use App\Http\Controllers\MonthlyPassController;
@@ -68,5 +69,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/refreshAccessCode', [SettingController::class, 'refreshAccessCode'])->name('setting_pegeypay_refresh');
         Route::post('/refreshFPX', [SettingController::class, 'refreshFPX'])->name('setting_fpx_refresh');
         Route::put('/change-password', [SettingController::class, 'changePassword'])->name('change_password');
+    });
+
+    // Activity Log
+    Route::prefix('activityLog')->name('activityLog.')->group(function () {
+        Route::get('/activity-log', [ActivityLogController::class, 'index'])->name('index');
     });
 });

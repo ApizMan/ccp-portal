@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,15 @@ class SettingController extends Controller
 
         // Check if the pegepay update was successful
         if ($response->successful()) {
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Setting',
+                'activity' => 'PEGEPAY',
+                'description' => $user->name . ' Regenerated Onboarding Key',
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('setting.setting')->with('status', 'Onboarding Key successfully generated.');
         } else {
@@ -52,6 +62,16 @@ class SettingController extends Controller
 
         // Check if the pegepay update was successful
         if ($response->successful()) {
+
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Setting',
+                'activity' => 'PEGEPAY',
+                'description' => $user->name . ' Refreshed Access Code',
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('setting.setting')->with('status', 'Access Code successfully refreshed.');
         } else {
@@ -72,6 +92,15 @@ class SettingController extends Controller
 
         // Check if the fpx update was successful
         if ($response->successful()) {
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Setting',
+                'activity' => 'FPX',
+                'description' => $user->name . ' Refreshed FPX',
+            ]);
+
             // Redirect or return a success message
             return redirect()->route('setting.setting')->with('status', 'FPX successfully refreshed.');
         } else {
