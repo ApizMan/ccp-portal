@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
 use App\Http\Controllers\MonthlyPassController;
 use App\Http\Controllers\ParkingController;
+use App\Http\Controllers\ReserveBayController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,6 +70,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/refreshAccessCode', [SettingController::class, 'refreshAccessCode'])->name('setting_pegeypay_refresh');
         Route::post('/refreshFPX', [SettingController::class, 'refreshFPX'])->name('setting_fpx_refresh');
         Route::put('/change-password', [SettingController::class, 'changePassword'])->name('change_password');
+    });
+
+    // Reserve Bay
+    Route::prefix('reserveBay')->name('reserveBay.')->group(function () {
+        Route::get('/', [ReserveBayController::class, 'index'])->name(name: 'reserve_bay');
     });
 
     // Activity Log
