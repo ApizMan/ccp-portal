@@ -14,8 +14,7 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">{{ $data['plateNumber'] }}</li>
                 </ol>
-                <form class="mx-5 my-5"
-                    action="{{ route('parking.parking_update', ['id' => $parkingId, 'transactionId' => $data['transaction']['id']]) }}"
+                <form class="mx-5 my-5" action="{{ route('monthlyPass.monthly_pass_update', ['id' => $monthlyPassId]) }}"
                     method="POST">
                     @csrf
                     @method('PUT')
@@ -33,16 +32,17 @@
                     <div class="mb-3">
                         <label for="plateNumber" class="form-label">Plate Number</label>
                         <input type="text" name="plateNumber" class="form-control" id="plateNumber"
-                            value="{{ $data['plateNumber'] }}">
+                            value="{{ $data['plateNumber'] }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" name="status">
-                            <option disabled>Select Status</option>
-                            <option value="completed" @if ($data['transaction']['status'] == 'completed') selected @endif>Completed
+                        <label for="duration" class="form-label">Duration</label>
+                        <select class="form-select" id="status" name="duration">
+                            <option disabled>Select Duration</option>
+                            <option value="1 Month" @if ($data['duration'] == '1 Month') selected @endif>1 Month
                             </option>
-                            <option value="pending" @if ($data['transaction']['status'] == 'pending') selected @endif>Pending</option>
-                            <option value="cenceled" @if ($data['transaction']['status'] == 'canceled') selected @endif>Canceled</option>
+                            <option value="3 Months" @if ($data['duration'] == '3 Months') selected @endif>3 Months</option>
+                            <option value="12 Months" @if ($data['duration'] == '12 Months') selected @endif>12 Months
+                            </option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -72,8 +72,7 @@
                     <div class="mb-3">
                         <label for="amount" class="form-label">Amount</label>
                         <input type="number" name="amount" class="form-control" id="amount"
-                            value="{{ number_format($data['transaction']['amount'], 2) }}" min="0"
-                            step="0.01">
+                            value="{{ number_format($data['amount'], 2) }}" min="0" step="0.01" required>
                     </div>
                     <button type="submit" class="btn btn-primary mb-5" style="float: right">Update</button>
                 </form>

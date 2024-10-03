@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
+use App\Http\Controllers\MonthlyPassController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
@@ -48,6 +49,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [ParkingController::class, 'edit'])->name(name: 'parking_edit');
         Route::put('/update/{id}/{transactionId}', [ParkingController::class, 'update'])->name(name: 'parking_update');
         Route::delete('/delete/{id}', [ParkingController::class, 'destroy'])->name(name: 'parking_delete');
+    });
+
+    // Monthly Pass
+    Route::prefix('monthlyPass')->name('monthlyPass.')->group(function () {
+        Route::get('/', [MonthlyPassController::class, 'index'])->name('monthly_pass_public');
+        Route::get('/create', [MonthlyPassController::class, 'createMonthlyPass'])->name('monthly_pass_create');
+        Route::post('/store', [MonthlyPassController::class, 'store'])->name('monthly_pass_store');
+        Route::get('/{id}', [MonthlyPassController::class, 'edit'])->name(name: 'monthly_pass_edit');
+        Route::put('/update/{id}', [MonthlyPassController::class, 'update'])->name(name: 'monthly_pass_update');
+        Route::delete('/delete/{id}', [MonthlyPassController::class, 'destroy'])->name(name: 'monthly_pass_delete');
     });
 
     // Settings

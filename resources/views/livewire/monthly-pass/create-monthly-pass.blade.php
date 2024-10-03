@@ -10,21 +10,18 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Edit Parking</h1>
+                <h1 class="mt-4">Create New Monthly Pass</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active">{{ $data['plateNumber'] }}</li>
+                    <li class="breadcrumb-item active">City Car Park</li>
                 </ol>
-                <form class="mx-5 my-5"
-                    action="{{ route('parking.parking_update', ['id' => $parkingId, 'transactionId' => $data['transaction']['id']]) }}"
-                    method="POST">
+                <form class="mx-5 my-5" action="{{ route('monthlyPass.monthly_pass_store') }}" method="POST">
                     @csrf
-                    @method('PUT')
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <select class="form-select" id="username" name="userId">
                             <option disabled>Select Username</option>
                             @foreach ($data_users as $user)
-                                <option @if ($data['user']['id'] == $user['id']) selected @endif value="{{ $user['id'] }}">
+                                <option value="{{ $user['id'] }}">
                                     {{ $user['firstName'] }} {{ $user['secondName'] }}
                                 </option>
                             @endforeach
@@ -32,17 +29,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="plateNumber" class="form-label">Plate Number</label>
-                        <input type="text" name="plateNumber" class="form-control" id="plateNumber"
-                            value="{{ $data['plateNumber'] }}">
+                        <input type="text" name="plateNumber" class="form-control" id="plateNumber" required>
                     </div>
                     <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" name="status">
-                            <option disabled>Select Status</option>
-                            <option value="completed" @if ($data['transaction']['status'] == 'completed') selected @endif>Completed
+                        <label for="duration" class="form-label">Duration</label>
+                        <select class="form-select" id="status" name="duration">
+                            <option disabled>Select Duration</option>
+                            <option value="1 Month">1 Month
                             </option>
-                            <option value="pending" @if ($data['transaction']['status'] == 'pending') selected @endif>Pending</option>
-                            <option value="cenceled" @if ($data['transaction']['status'] == 'canceled') selected @endif>Canceled</option>
+                            <option value="3 Months">3 Months</option>
+                            <option value="12 Months">12 Months
+                            </option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -50,7 +47,7 @@
                         <select class="form-select" id="pbt" name="pbt">
                             <option disabled>Select PBT</option>
                             @foreach ($data_pbt as $pbt)
-                                <option @if ($data['pbt'] == $pbt['name']) selected @endif value="{{ $pbt['name'] }}">
+                                <option value="{{ $pbt['name'] }}">
                                     {{ $pbt['name'] }}
                                 </option>
                             @endforeach
@@ -62,8 +59,7 @@
                         <select class="form-select" id="location" name="location">
                             <option disabled>Select Location</option>
                             @foreach ($data_pbt as $pbt)
-                                <option @if ($data['location'] == $pbt['description']) selected @endif
-                                    value="{{ $pbt['description'] }}">
+                                <option value="{{ $pbt['description'] }}">
                                     {{ $pbt['description'] }}
                                 </option>
                             @endforeach
@@ -71,11 +67,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Amount</label>
-                        <input type="number" name="amount" class="form-control" id="amount"
-                            value="{{ number_format($data['transaction']['amount'], 2) }}" min="0"
-                            step="0.01">
+                        <input type="number" name="amount" class="form-control" id="amount" min="0"
+                            step="0.01" required>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-5" style="float: right">Update</button>
+                    <button type="submit" class="btn btn-primary mb-5" style="float: right">Create</button>
                 </form>
             </div>
         </main>
