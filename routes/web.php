@@ -75,14 +75,20 @@ Route::group(['middleware' => 'auth'], function () {
     // Reserve Bay
     Route::prefix('reserveBay')->name('reserveBay.')->group(function () {
         Route::get('/', [ReserveBayController::class, 'index'])->name(name: 'reserve_bay');
+        Route::get('/view/{id}', [ReserveBayController::class, 'view'])->name(name: 'reserve_bay_view');
         Route::get('/create', [ReserveBayController::class, 'create'])->name('reserve_bay_create');
         Route::post('/store', [ReserveBayController::class, 'store'])->name('reserve_bay_store');
         Route::get('/{id}', [ReserveBayController::class, 'edit'])->name(name: 'reserve_bay_edit');
         Route::put('/update/{id}', [ReserveBayController::class, 'update'])->name(name: 'reserve_bay_update');
         Route::delete('/delete/{id}', [ReserveBayController::class, 'destroy'])->name(name: 'reserve_bay_delete');
 
+        // Approve or Reject from Dashboard
         Route::put('/update/status/approve/{id}', [ReserveBayController::class, 'updateStatusApprove'])->name(name: 'reserve_bay_update_status_approve');
         Route::put('/update/status/reject/{id}', [ReserveBayController::class, 'updateStatusReject'])->name(name: 'reserve_bay_update_status_reject');
+
+        // Approve or Reject from View
+        Route::put('/update/status/approve/view/{id}', [ReserveBayController::class, 'updateStatusApproveView'])->name(name: 'reserve_bay_update_status_approve_view');
+        Route::put('/update/status/reject/view/{id}', [ReserveBayController::class, 'updateStatusRejectView'])->name(name: 'reserve_bay_update_status_reject_view');
     });
 
     // Activity Log

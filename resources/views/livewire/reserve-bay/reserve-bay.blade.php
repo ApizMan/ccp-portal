@@ -93,14 +93,22 @@
                                     @foreach ($datas as $data)
                                         <tr>
                                             @if ($data['status'] == 'PENDING')
-                                                <td>{{ $data['companyName'] }}</td>
+                                                <td><a href="{{ route('reserveBay.reserve_bay_view', $data['id']) }}"
+                                                        style="text-decoration: none; color: black;">{{ $data['companyName'] }}</a>
+                                                </td>
                                             @elseif ($data['status'] == 'APPROVED')
                                                 <td>
-                                                    <p class="text-success">{{ $data['companyName'] }}</p>
+                                                    <a href="{{ route('reserveBay.reserve_bay_view', $data['id']) }}"
+                                                        style="text-decoration: none;">
+                                                        <p class="text-success">{{ $data['companyName'] }}</p>
+                                                    </a>
                                                 </td>
                                             @else
                                                 <td>
-                                                    <p class="text-danger">{{ $data['companyName'] }}</p>
+                                                    <a href="{{ route('reserveBay.reserve_bay_view', $data['id']) }}"
+                                                        style="text-decoration: none;">
+                                                        <p class="text-danger">{{ $data['companyName'] }}</p>
+                                                    </a>
                                                 </td>
                                             @endif
 

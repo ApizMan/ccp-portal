@@ -15,6 +15,28 @@ class ReserveBayController extends Controller
         return view('reserve_bay.reserve_bay');
     }
 
+    public function view($id)
+    {
+        $reserveBayId = $id;
+        $url = env('BASE_URL') . '/reservebay/single/' . $id;
+
+        // Using file_get_contents
+        $data = file_get_contents($url);
+
+        // Decode the JSON data if necessary
+        $decodedData = json_decode($data, true); // true for associative array
+
+        return view(
+            'reserve_bay.view-reserve-bay',
+            compact(
+                [
+                    'decodedData',
+                    'reserveBayId',
+                ],
+            ),
+        );
+    }
+
 
     public function create()
     {
@@ -272,6 +294,88 @@ class ReserveBayController extends Controller
 
             // Redirect or return a success message
             return redirect()->route('reserveBay.reserve_bay')->with('status', 'Reserve Bay information updated successfully.');
+        } else {
+            // Handle the error accordingly
+            return back()->withErrors([
+                'error' => 'Failed to update monthly pass information.',
+                'error_response' => $response->body(), // Log the response body for debugging
+            ]);
+        }
+    }
+
+    public function updateStatusApproveView($id)
+    {
+        // Define the URLs for the reserve bay status updates
+        $url = env('BASE_URL') . '/reservebay/edit/status/' . $id;
+
+        $validated['status'] = 'APPROVED';
+
+        // Send a PUT request for reserve bay status update
+        $response = Http::put($url, $validated);
+
+        // Check if the parking update was successful
+        if ($response->successful()) {
+
+            $url = env('BASE_URL') . '/reservebay/single/' . $id;
+
+            // Using file_get_contents
+            $data = file_get_contents($url);
+
+            // Decode the JSON data if necessary
+            $decodedData = json_decode($data, true); // true for associative array
+
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Reserve Bay',
+                'activity' => 'Update Status',
+                'description' => $user->name . ' updated a reserve bay status ' . $validated['status'] . ' for ' . $decodedData['companyName'],
+            ]);
+
+            // Redirect or return a success message
+            return redirect()->route('reserveBay.reserve_bay_view', ['id' => $id])->with('status', 'Reserve Bay information updated successfully.');
+        } else {
+            // Handle the error accordingly
+            return back()->withErrors([
+                'error' => 'Failed to update monthly pass information.',
+                'error_response' => $response->body(), // Log the response body for debugging
+            ]);
+        }
+    }
+
+    public function updateStatusRejectView($id)
+    {
+        // Define the URLs for the reserve bay status updates
+        $url = env('BASE_URL') . '/reservebay/edit/status/' . $id;
+
+        $validated['status'] = 'REJECTED';
+
+        // Send a PUT request for reserve bay status update
+        $response = Http::put($url, $validated);
+
+        // Check if the parking update was successful
+        if ($response->successful()) {
+
+            $url = env('BASE_URL') . '/reservebay/single/' . $id;
+
+            // Using file_get_contents
+            $data = file_get_contents($url);
+
+            // Decode the JSON data if necessary
+            $decodedData = json_decode($data, true); // true for associative array
+
+            $user = User::find(Auth::user()->id);
+
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'type' => 'Reserve Bay',
+                'activity' => 'Update Status',
+                'description' => $user->name . ' updated a reserve bay status ' . $validated['status'] . ' for ' . $decodedData['companyName'],
+            ]);
+
+            // Redirect or return a success message
+            return redirect()->route('reserveBay.reserve_bay_view', ['id' => $id])->with('status', 'Reserve Bay information updated successfully.');
         } else {
             // Handle the error accordingly
             return back()->withErrors([
