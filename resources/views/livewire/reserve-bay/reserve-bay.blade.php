@@ -41,10 +41,16 @@
         @endif
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Reserve Bay</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active">City Car Park</li>
-                </ol>
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+                    <div>
+                        <h1 class="d-inline-block">Reserve Bay</h1>
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item active">City Car Park</li>
+                        </ol>
+                    </div>
+                    <a class="btn btn-warning" href="{{ route('reserveBay.reserve_bay_create') }}" role="button">Create
+                        New Reserve Bay</a>
+                </div>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -78,9 +84,10 @@
                                             <td>
                                                 <div class="d-flex mx-3 " style="gap: 10px;">
                                                     <a class="btn btn-primary"
-                                                        href="{{ route('parking.parking_edit', $data['id']) }}"
+                                                        href="{{ route('reserveBay.reserve_bay_edit', $data['id']) }}"
                                                         role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                    <form action="{{ route('parking.parking_delete', $data['id']) }}"
+                                                    <form
+                                                        action="{{ route('reserveBay.reserve_bay_delete', $data['id']) }}"
                                                         method="POST" style="display: inline;"
                                                         onsubmit="return confirmDelete();">
                                                         @csrf

@@ -75,6 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
     // Reserve Bay
     Route::prefix('reserveBay')->name('reserveBay.')->group(function () {
         Route::get('/', [ReserveBayController::class, 'index'])->name(name: 'reserve_bay');
+        Route::get('/create', [ReserveBayController::class, 'create'])->name('reserve_bay_create');
+        Route::post('/store', [ReserveBayController::class, 'store'])->name('reserve_bay_store');
+        Route::get('/{id}', [ReserveBayController::class, 'edit'])->name(name: 'reserve_bay_edit');
+        Route::put('/update/{id}', [ReserveBayController::class, 'update'])->name(name: 'reserve_bay_update');
+        Route::delete('/delete/{id}', [ReserveBayController::class, 'destroy'])->name(name: 'reserve_bay_delete');
     });
 
     // Activity Log
