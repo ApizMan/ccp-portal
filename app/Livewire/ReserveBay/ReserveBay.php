@@ -52,6 +52,7 @@ class ReserveBay extends Component
             // Use array_values to reindex arrays from array_filter
             $this->datas[] = [
                 'id' => $reserve_bay['id'],
+                'status' => $reserve_bay['status'],
                 'user' => $user ? array_values($user)[0] : null, // Store the user array
                 'companyName' => $reserve_bay['companyName'],
                 'companyRegistration' => $reserve_bay['companyRegistration'],

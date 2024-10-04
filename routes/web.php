@@ -80,6 +80,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [ReserveBayController::class, 'edit'])->name(name: 'reserve_bay_edit');
         Route::put('/update/{id}', [ReserveBayController::class, 'update'])->name(name: 'reserve_bay_update');
         Route::delete('/delete/{id}', [ReserveBayController::class, 'destroy'])->name(name: 'reserve_bay_delete');
+
+        Route::put('/update/status/approve/{id}', [ReserveBayController::class, 'updateStatusApprove'])->name(name: 'reserve_bay_update_status_approve');
+        Route::put('/update/status/reject/{id}', [ReserveBayController::class, 'updateStatusReject'])->name(name: 'reserve_bay_update_status_reject');
     });
 
     // Activity Log

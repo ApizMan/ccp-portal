@@ -61,13 +61,30 @@
                             <thead>
                                 @if (count($datas) > 0)
                                     <tr>
-                                        <th>Company Name</th>
-                                        <th>Business Registration</th>
-                                        <th>Business Type</th>
-                                        <th>PIC Name</th>
-                                        <th>Location</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
+                                        <th>
+                                            <p style="text-align: center">Company Name</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">Business Registration</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">Business Type</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">PIC Name</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">Location</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">Created At</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">Status</p>
+                                        </th>
+                                        <th>
+                                            <p style="text-align: center">Action</p>
+                                        </th>
                                     </tr>
                                 @endif
                             </thead>
@@ -75,14 +92,120 @@
                                 @if (count($datas) > 0)
                                     @foreach ($datas as $data)
                                         <tr>
-                                            <td>{{ $data['companyName'] }}</td>
-                                            <td>{{ $data['companyRegistration'] }}</td>
-                                            <td>{{ $data['businessType'] }}</td>
-                                            <td>{{ $data['picFirstName'] }} {{ $data['picLastName'] }}</td>
-                                            <td>{{ $data['location'] }}</td>
-                                            <td>{{ $data['createdAt'] }}</td>
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['companyName'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['companyName'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['companyName'] }}</p>
+                                                </td>
+                                            @endif
+
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['companyRegistration'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['companyRegistration'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['companyRegistration'] }}</p>
+                                                </td>
+                                            @endif
+
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['businessType'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['businessType'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['businessType'] }}</p>
+                                                </td>
+                                            @endif
+
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['picFirstName'] }} {{ $data['picLastName'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['picFirstName'] }}
+                                                        {{ $data['picLastName'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['picFirstName'] }}
+                                                        {{ $data['picLastName'] }}</p>
+                                                </td>
+                                            @endif
+
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['location'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['location'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['location'] }}</p>
+                                                </td>
+                                            @endif
+
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['createdAt'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['createdAt'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['createdAt'] }}</p>
+                                                </td>
+                                            @endif
+                                            @if ($data['status'] == 'PENDING')
+                                                <td>{{ $data['status'] }}</td>
+                                            @elseif ($data['status'] == 'APPROVED')
+                                                <td>
+                                                    <p class="text-success">{{ $data['status'] }}</p>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <p class="text-danger">{{ $data['status'] }}</p>
+                                                </td>
+                                            @endif
+
                                             <td>
                                                 <div class="d-flex mx-3 " style="gap: 10px;">
+
+                                                    @if ($data['status'] == 'PENDING')
+                                                        <div class="d-flex mx-3 " style="gap: 10px;">
+                                                            <form
+                                                                action="{{ route('reserveBay.reserve_bay_update_status_approve', $data['id']) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button type="submit" class="btn btn-success"
+                                                                    role="button">Approve</button>
+                                                            </form>
+
+                                                            <form
+                                                                action="{{ route('reserveBay.reserve_bay_update_status_reject', $data['id']) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button type="submit" class="btn btn-warning"
+                                                                    role="button">Reject</button>
+                                                            </form>
+
+                                                        </div>
+                                                    @else
+                                                        <div class="d-flex mx-3 " style="width: 100%;">
+                                                        </div>
+                                                    @endif
+
                                                     <a class="btn btn-primary"
                                                         href="{{ route('reserveBay.reserve_bay_edit', $data['id']) }}"
                                                         role="button"><i class="fa-solid fa-pen-to-square"></i></a>
