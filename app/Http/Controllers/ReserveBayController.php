@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class ReserveBayController extends Controller
 {
@@ -67,10 +68,59 @@ class ReserveBayController extends Controller
             'reason' => 'required|string',
             'lotNumber' => 'required|string',
             'location' => 'required|string',
-            'designatedBayPicture' => 'nullable|string',
-            'registerNumberPicture' => 'nullable|string',
-            'idCardPicture' => 'nullable|string',
+            'designatedBayPicture' => 'nullable|max:2048',
+            'registerNumberPicture' => 'nullable|max:2048',
+            'idCardPicture' => 'nullable|max:2048',
         ]);
+
+        // Check if a file was uploaded
+        if ($request->hasFile('designatedBayPicture')) {
+            // Get the uploaded file
+            $file = $request->file('designatedBayPicture');
+
+            // Define a unique file name
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store the file in the 'public/images' directory (you can customize the path)
+            $path = $file->storeAs('public/images', $filename);
+
+            // If you need to get the URL to the stored file
+            $urlDesignatedBayPicture = Storage::url($path);
+
+            $validatedReserveBay['designatedBayPicture'] = env('APP_URL') . $urlDesignatedBayPicture;
+        }
+
+        if ($request->hasFile('registerNumberPicture')) {
+            // Get the uploaded file
+            $file = $request->file('registerNumberPicture');
+
+            // Define a unique file name
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store the file in the 'public/images' directory (you can customize the path)
+            $path = $file->storeAs('public/images', $filename);
+
+            // If you need to get the URL to the stored file
+            $urlRegisterNumberPicture = Storage::url($path);
+
+            $validatedReserveBay['registerNumberPicture'] = env('APP_URL') . $urlRegisterNumberPicture;
+        }
+
+        if ($request->hasFile('idCardPicture')) {
+            // Get the uploaded file
+            $file = $request->file('idCardPicture');
+
+            // Define a unique file name
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store the file in the 'public/images' directory (you can customize the path)
+            $path = $file->storeAs('public/images', $filename);
+
+            // If you need to get the URL to the stored file
+            $urlIdCardPicture = Storage::url($path);
+
+            $validatedReserveBay['idCardPicture'] = env('APP_URL') . $urlIdCardPicture;
+        }
 
         // Convert the amount to a int before validating
         $validatedReserveBay['totalLotRequired'] = (int) $request->input('totalLotRequired');
@@ -155,10 +205,59 @@ class ReserveBayController extends Controller
             'reason' => 'required|string',
             'lotNumber' => 'required|string',
             'location' => 'required|string',
-            'designatedBayPicture' => 'nullable|string',
-            'registerNumberPicture' => 'nullable|string',
-            'idCardPicture' => 'nullable|string',
+            'designatedBayPicture' => 'nullable|max:2048',
+            'registerNumberPicture' => 'nullable|max:2048',
+            'idCardPicture' => 'nullable|max:2048',
         ]);
+
+        // Check if a file was uploaded
+        if ($request->hasFile('designatedBayPicture')) {
+            // Get the uploaded file
+            $file = $request->file('designatedBayPicture');
+
+            // Define a unique file name
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store the file in the 'public/images' directory (you can customize the path)
+            $path = $file->storeAs('public/images', $filename);
+
+            // If you need to get the URL to the stored file
+            $urlDesignatedBayPicture = Storage::url($path);
+
+            $validatedReserveBay['designatedBayPicture'] = env('APP_URL') . $urlDesignatedBayPicture;
+        }
+
+        if ($request->hasFile('registerNumberPicture')) {
+            // Get the uploaded file
+            $file = $request->file('registerNumberPicture');
+
+            // Define a unique file name
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store the file in the 'public/images' directory (you can customize the path)
+            $path = $file->storeAs('public/images', $filename);
+
+            // If you need to get the URL to the stored file
+            $urlRegisterNumberPicture = Storage::url($path);
+
+            $validatedReserveBay['registerNumberPicture'] = env('APP_URL') . $urlRegisterNumberPicture;
+        }
+
+        if ($request->hasFile('idCardPicture')) {
+            // Get the uploaded file
+            $file = $request->file('idCardPicture');
+
+            // Define a unique file name
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store the file in the 'public/images' directory (you can customize the path)
+            $path = $file->storeAs('public/images', $filename);
+
+            // If you need to get the URL to the stored file
+            $urlIdCardPicture = Storage::url($path);
+
+            $validatedReserveBay['idCardPicture'] = env('APP_URL') . $urlIdCardPicture;
+        }
 
         // Convert the amount to a int before validating
         $validatedReserveBay['totalLotRequired'] = (int) $request->input('totalLotRequired');

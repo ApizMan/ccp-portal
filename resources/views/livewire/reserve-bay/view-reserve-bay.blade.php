@@ -210,20 +210,20 @@
 
                     <div class="mb-3">
                         <label for="designatedBayPicture" class="form-label">Designated Bay Picture</label>
-                        <input type="text" class="form-control" id="designatedBayPicture"
-                            name="designatedBayPicture" value="{{ $data['designatedBayPicture'] }}" readonly>
+                        <a href="{{ $data['designatedBayPicture'] }}" target="_blank" class="form-control"
+                            rel="noopener noreferrer">{{ $data['designatedBayPicture'] }}</a>
                     </div>
 
                     <div class="mb-3">
                         <label for="registerNumberPicture" class="form-label">Register Number Picture</label>
-                        <input type="text" class="form-control" id="registerNumberPicture"
-                            name="registerNumberPicture" value="{{ $data['registerNumberPicture'] }}" readonly>
+                        <a href="{{ $data['registerNumberPicture'] }}" target="_blank" class="form-control"
+                            rel="noopener noreferrer">{{ $data['registerNumberPicture'] }}</a>
                     </div>
 
                     <div class="mb-3">
                         <label for="idCardPicture" class="form-label">ID Card Picture</label>
-                        <input type="text" class="form-control" id="idCardPicture" name="idCardPicture"
-                            value="{{ $data['idCardPicture'] }}" readonly>
+                        <a href="{{ $data['idCardPicture'] }}" target="_blank" class="form-control"
+                            rel="noopener noreferrer">{{ $data['idCardPicture'] }}</a>
                     </div>
                 </form>
             </div>

@@ -14,7 +14,8 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">City Car Park</li>
                 </ol>
-                <form class="mx-5 my-5" action="{{ route('reserveBay.reserve_bay_store') }}" method="POST">
+                <form class="mx-5 my-5" action="{{ route('reserveBay.reserve_bay_store') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>

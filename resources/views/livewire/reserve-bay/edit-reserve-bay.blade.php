@@ -15,7 +15,7 @@
                     <li class="breadcrumb-item active">{{ $data['companyName'] }}</li>
                 </ol>
                 <form class="mx-5 my-5" action="{{ route('reserveBay.reserve_bay_update', ['id' => $reserveBayId]) }}"
-                    method="POST">
+                    method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
