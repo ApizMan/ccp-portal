@@ -51,6 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [ParkingController::class, 'edit'])->name(name: 'parking_edit');
         Route::put('/update/{id}/{transactionId}', [ParkingController::class, 'update'])->name(name: 'parking_update');
         Route::delete('/delete/{id}', [ParkingController::class, 'destroy'])->name(name: 'parking_delete');
+
+        Route::get('/parking/export-excel', [ParkingController::class, 'exportExcel'])->name('parking.export_excel');
+        Route::get('/parking/export-pdf', [ParkingController::class, 'exportPDF'])->name('parking.export_pdf');
     });
 
     // Monthly Pass

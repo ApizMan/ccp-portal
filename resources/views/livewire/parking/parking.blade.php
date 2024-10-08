@@ -41,10 +41,24 @@
         @endif
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Parking</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active">City Car Park</li>
-                </ol>
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+                    <div>
+                        <h1 class="mt-4">Parking</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">City Car Park</li>
+                        </ol>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a class="btn btn-outline-success" href="{{ route('parking.parking.export_excel') }}"
+                                role="button">Export Excel</a>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-outline-danger" href="{{ route('parking.parking.export_pdf') }}"
+                                role="button">Export PDF</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>

@@ -4,14 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\User;
+use App\Exports\ParkingExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 
 include_once app_path('constants.php');
 
 class ParkingController extends Controller
 {
+    protected $data_parking;
+    protected $data_users;
+    protected $data_transactions;
+    protected $datas;
+
     public function index()
     {
         return view('parking.parking');
@@ -128,6 +136,98 @@ class ParkingController extends Controller
                 'error' => 'Failed to delete parking information.',
                 'response_error' => $response->body(), // Log the response body for debugging
             ]);
+        }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ParkingExport, 'parking_data.xlsx');
+    }
+
+    public function exportPDF()
+    {
+        // Increase memory limit
+        ini_set('memory_limit', '512M'); // or '512M'
+
+        // Fetch the data needed for the PDF.
+        $this->fetchData();
+
+        // Check if $this->datas is populated correctly.
+        $data = $this->datas;
+
+        // dd($data);
+
+        // If there's no data, handle accordingly.
+        if (empty($data)) {
+            return back()->with('error', 'No data available for export.');
+        }
+
+        // Generate PDF using the data and view.
+        $pdf = Pdf::loadView('parking.pdf_view', compact('data'));
+
+        // dd($pdf);
+        // Return the generated PDF for download.
+        return $pdf->download('parking_data.pdf');
+    }
+
+    private function fetchData()
+    {
+        // Fetch parking data
+        $url = env('BASE_URL') . '/parking/public';
+        $data = file_get_contents($url);
+        $this->data_parking = json_decode($data, true);
+
+        // Fetch users data
+        $url = env('BASE_URL') . '/auth/users';
+        $data = file_get_contents($url);
+        $this->data_users = json_decode($data, true);
+
+        // Fetch transactions data
+        $url = env('BASE_URL') . '/transaction/allTransactionWallet';
+        $data = file_get_contents($url);
+        $this->data_transactions = json_decode($data, true);
+
+        // Initialize $datas array
+        $this->datas = [];
+
+        // Build the $datas array based on relationships
+        foreach ($this->data_parking as $parking) {
+            $userId = $parking['userId'];
+            $walletTransactionId = $parking['walletTransactionId'];
+
+            // Find user by userId
+            $user = array_filter($this->data_users, function ($user) use ($userId) {
+                return $user['id'] === $userId;
+            });
+
+            $user = $user ? array_values($user)[0] : null;
+
+            // dd($user);
+
+            // Find transaction by walletTransactionId
+            $transaction = array_filter($this->data_transactions, function ($transaction) use ($walletTransactionId) {
+                return $transaction['id'] === $walletTransactionId;
+            });
+
+            // Format the createdAt timestamp
+            $createdAt = (new \DateTime($parking['createdAt']))->format('d-m-Y H:i');
+
+            // Use array_values to reindex arrays from array_filter
+            $transaction = $transaction ? array_values($transaction)[0] : null;
+
+            // Add data to $datas array
+            $this->datas[] = [
+                'id' => $parking['id'],
+                'user' => $user, // Store the user array
+                'transaction' => $transaction, // Store the transaction array
+                'plateNumber' => $parking['plateNumber'],
+                'pbt' => $parking['pbt'],
+                'location' => $parking['location'],
+                'amount' => $transaction['amount'] ?? 'N/A', // Use amount from transaction if available
+                'status' => $transaction['status'] ?? 'N/A', // Use status from transaction if available
+                'createdAt' => $createdAt, // Use formatted date
+                'updatedAt' => (new \DateTime($parking['updatedAt']))->format('d-m-Y H:i'), // Format updatedAt as well
+            ];
         }
     }
 }
