@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MonthlyPassExport;
 use App\Models\ActivityLog;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonthlyPassController extends Controller
 {
+    protected $data_monthly_pass;
+    protected $data_users;
+    protected $datas;
     public function index()
     {
         return view('monthly_pass.monthly_pass');
@@ -161,6 +167,83 @@ class MonthlyPassController extends Controller
                 'error' => 'Failed to delete monthly pass information.',
                 'response_error' => $response->body(), // Log the response body for debugging
             ]);
+        }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new MonthlyPassExport, 'monthly_pass_data.xlsx');
+    }
+
+    public function exportPDF()
+    {
+        // Increase memory limit
+        ini_set('memory_limit', '512M'); // or '512M'
+
+        // Fetch the data needed for the PDF.
+        $this->fetchData();
+
+        // Check if $this->datas is populated correctly.
+        $data = $this->datas;
+
+        // dd($data);
+
+        // If there's no data, handle accordingly.
+        if (empty($data)) {
+            return back()->with('error', 'No data available for export.');
+        }
+
+        // Generate PDF using the data and view.
+        $pdf = Pdf::loadView('monthly_pass.pdf_view', compact('data'));
+
+        // dd($pdf);
+        // Return the generated PDF for download.
+        return $pdf->download('monthly_pass_data.pdf');
+    }
+
+    private function fetchData()
+    {
+        // Fetch parking data
+        $url = env('BASE_URL') . '/monthlyPass/public';
+        $data = file_get_contents($url);
+        $this->data_monthly_pass = json_decode($data, true);
+
+        // Fetch users data
+        $url = env('BASE_URL') . '/auth/users';
+        $data = file_get_contents($url);
+        $this->data_users = json_decode($data, true);
+
+        // Initialize $datas array
+        $this->datas = [];
+
+        // Build the $datas array based on relationships
+        foreach ($this->data_monthly_pass as $monthlyPass) {
+            $userId = $monthlyPass['userId'];
+
+            // Find user by userId
+            $user = array_filter($this->data_users, function ($user) use ($userId) {
+                return $user['id'] === $userId;
+            });
+
+            $user = $user ? array_values($user)[0] : null;
+
+            // dd($user);
+
+            // Format the createdAt timestamp
+            $createdAt = (new \DateTime($monthlyPass['createdAt']))->format('d-m-Y H:i');
+
+            // Add data to $datas array
+            $this->datas[] = [
+                'id' => $monthlyPass['id'],
+                'user' => $user, // Store the user array
+                'plateNumber' => $monthlyPass['plateNumber'],
+                'pbt' => $monthlyPass['pbt'],
+                'location' => $monthlyPass['location'],
+                'amount' => $monthlyPass['amount'] ?? 'N/A', // Use amount from transaction if available
+                'duration' => $monthlyPass['duration'] ?? 'N/A', // Use status from transaction if available
+                'createdAt' => $createdAt, // Use formatted date
+                'updatedAt' => (new \DateTime($monthlyPass['updatedAt']))->format('d-m-Y H:i'), // Format updatedAt as well
+            ];
         }
     }
 }

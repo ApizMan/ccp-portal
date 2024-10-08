@@ -48,8 +48,21 @@
                             <li class="breadcrumb-item active">City Car Park</li>
                         </ol>
                     </div>
-                    <a class="btn btn-warning" href="{{ route('monthlyPass.monthly_pass_create') }}"
-                        role="button">Create New Monthly Pass</a>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a class="btn btn-outline-success"
+                                href="{{ route('monthlyPass.monthlyPass.export_excel') }}" role="button">Export
+                                Excel</a>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-outline-danger" href="{{ route('monthlyPass.monthlyPass.export_pdf') }}"
+                                role="button">Export PDF</a>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-warning" href="{{ route('monthlyPass.monthly_pass_create') }}"
+                                role="button">Create New Monthly Pass</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card mb-4">
                     <div class="card-header">

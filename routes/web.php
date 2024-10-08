@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [MonthlyPassController::class, 'index'])->name('monthly_pass_public');
         Route::get('/create', [MonthlyPassController::class, 'createMonthlyPass'])->name('monthly_pass_create');
         Route::post('/store', [MonthlyPassController::class, 'store'])->name('monthly_pass_store');
+        Route::get('/export-excel', [MonthlyPassController::class, 'exportExcel'])->name('monthlyPass.export_excel');
+        Route::get('/export-pdf', [MonthlyPassController::class, 'exportPDF'])->name('monthlyPass.export_pdf');
         Route::get('/{id}', [MonthlyPassController::class, 'edit'])->name(name: 'monthly_pass_edit');
         Route::put('/update/{id}', [MonthlyPassController::class, 'update'])->name(name: 'monthly_pass_update');
         Route::delete('/delete/{id}', [MonthlyPassController::class, 'destroy'])->name(name: 'monthly_pass_delete');
