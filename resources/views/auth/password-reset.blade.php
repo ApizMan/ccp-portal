@@ -21,7 +21,8 @@
 <body>
     <center style="margin-top: 100px;">
         <div class="card" style="width: 25rem; padding-top: 50px; padding-bottom: 20px;">
-            <img src="{{ $logo }}" alt="CCP Logo" style="padding-left: 20%; padding-right: 20%;">
+            <img src="{{ $logo }}" alt="CCP Logo"
+                style="padding-left: 20%; padding-right: 20%; width: 150px; height: 100px;">
             <div class="card-body">
                 <h1>Your New Password</h1>
                 <p>Your new password is: <strong>{{ $password }}</strong></p>
