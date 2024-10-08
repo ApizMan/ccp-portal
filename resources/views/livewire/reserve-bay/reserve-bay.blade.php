@@ -48,8 +48,23 @@
                             <li class="breadcrumb-item active">City Car Park</li>
                         </ol>
                     </div>
-                    <a class="btn btn-warning" href="{{ route('reserveBay.reserve_bay_create') }}" role="button">Create
-                        New Reserve Bay</a>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a class="btn btn-outline-success" href="{{ route('reserveBay.reserveBay.export_excel') }}"
+                                role="button">Export
+                                Excel</a>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-outline-danger" href="{{ route('reserveBay.reserveBay.export_pdf') }}"
+                                role="button">Export PDF</a>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-warning" href="{{ route('reserveBay.reserve_bay_create') }}"
+                                role="button">Create
+                                New Reserve Bay</a>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card mb-4">
                     <div class="card-header">

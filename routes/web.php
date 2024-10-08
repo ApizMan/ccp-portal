@@ -83,6 +83,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/view/{id}', [ReserveBayController::class, 'view'])->name(name: 'reserve_bay_view');
         Route::get('/create', [ReserveBayController::class, 'create'])->name('reserve_bay_create');
         Route::post('/store', [ReserveBayController::class, 'store'])->name('reserve_bay_store');
+        Route::get('/export-excel', [ReserveBayController::class, 'exportExcel'])->name('reserveBay.export_excel');
+        Route::get('/export-pdf', [ReserveBayController::class, 'exportPDF'])->name('reserveBay.export_pdf');
         Route::get('/{id}', [ReserveBayController::class, 'edit'])->name(name: 'reserve_bay_edit');
         Route::put('/update/{id}', [ReserveBayController::class, 'update'])->name(name: 'reserve_bay_update');
         Route::delete('/delete/{id}', [ReserveBayController::class, 'destroy'])->name(name: 'reserve_bay_delete');

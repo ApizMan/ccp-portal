@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReserveBayExport;
 use App\Models\ActivityLog;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReserveBayController extends Controller
 {
+
+    protected $data_reserve_bay;
+    protected $data_users;
+    protected $datas;
+
     public function index()
     {
         return view('reserve_bay.reserve_bay');
@@ -481,6 +489,100 @@ class ReserveBayController extends Controller
                 'error' => 'Failed to update monthly pass information.',
                 'error_response' => $response->body(), // Log the response body for debugging
             ]);
+        }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ReserveBayExport, 'reserve_bay_data.xlsx');
+    }
+
+    public function exportPDF()
+    {
+        // Increase memory limit
+        ini_set('memory_limit', '512M'); // or '512M'
+
+        // Fetch the data needed for the PDF.
+        $this->fetchData();
+
+        // Check if $this->datas is populated correctly.
+        $data = $this->datas;
+
+        // dd($data);
+
+        // If there's no data, handle accordingly.
+        if (empty($data)) {
+            return back()->with('error', 'No data available for export.');
+        }
+
+        // Generate PDF using the data and view.
+        $pdf = Pdf::loadView('reserve_bay.pdf_view', compact('data'));
+
+        // dd($pdf);
+        // Return the generated PDF for download.
+        return $pdf->download('reserve_bay_data.pdf');
+    }
+
+    private function fetchData()
+    {
+        // Fetch parking data
+        $url = env('BASE_URL') . '/reservebay/public';
+        $data = file_get_contents($url);
+        $this->data_reserve_bay = json_decode($data, true);
+
+        // Fetch users data
+        $url = env('BASE_URL') . '/auth/users';
+        $data = file_get_contents($url);
+        $this->data_users = json_decode($data, true);
+
+        // Initialize $datas array
+        $this->datas = [];
+
+        // Build the $datas array based on relationships
+        foreach ($this->data_reserve_bay as $reserveBay) {
+            $userId = $reserveBay['userId'];
+
+            // Find user by userId
+            $user = array_filter($this->data_users, function ($user) use ($userId) {
+                return $user['id'] === $userId;
+            });
+
+            $user = $user ? array_values($user)[0] : null;
+
+            // dd($reserveBay);
+
+            // Format the createdAt timestamp
+            $createdAt = (new \DateTime($reserveBay['createdAt']))->format('d-m-Y H:i');
+
+            // Add data to $datas array
+            $this->datas[] = [
+                'id' => $reserveBay['id'],
+                'status' => $reserveBay['status'],
+                'user' => $user ? array_values($user)[0] : null, // Store the user array
+                'companyName' => $reserveBay['companyName'],
+                'companyRegistration' => $reserveBay['companyRegistration'],
+                'businessType' => $reserveBay['businessType'],
+                'address1' => $reserveBay['address1'],
+                'address2' => $reserveBay['address2'],
+                'address3' => $reserveBay['address3'],
+                'postcode' => $reserveBay['postcode'],
+                'city' => $reserveBay['city'],
+                'state' => $reserveBay['state'],
+                'location' => $reserveBay['location'],
+                'picFirstName' => $reserveBay['picFirstName'],
+                'picLastName' => $reserveBay['picLastName'],
+                'phoneNumber' => $reserveBay['phoneNumber'],
+                'email' => $reserveBay['email'],
+                'idNumber' => $reserveBay['idNumber'],
+                'totalLotRequired' => $reserveBay['totalLotRequired'],
+                'reason' => $reserveBay['reason'],
+                'lotNumber' => $reserveBay['lotNumber'],
+                'designatedBayPicture' => $reserveBay['designatedBayPicture'],
+                'registerNumberPicture' => $reserveBay['registerNumberPicture'],
+                'idCardPicture' => $reserveBay['idCardPicture'],
+                'createdAt' => $createdAt, // Use formatted date
+                'updatedAt' => (new \DateTime($reserveBay['updatedAt']))->format('d-m-Y H:i'), // Format updatedAt as well
+            ];
         }
     }
 }
