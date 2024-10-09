@@ -1,5 +1,4 @@
 <head>
-    <link rel="icon" type="image/x-icon" href="{{ $favicon }}">
     <script>
         // Hide the error alert after 10 seconds (10,000 ms)
         setTimeout(function() {

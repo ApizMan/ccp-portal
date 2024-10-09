@@ -1,5 +1,4 @@
 <head>
-    <link rel="icon" type="image/x-icon" href="{{ $favicon }}">
     <style>
         .pegeypay-step,
         .fpx-step {

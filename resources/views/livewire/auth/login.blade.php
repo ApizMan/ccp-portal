@@ -1,7 +1,3 @@
-<head>
-    <link rel="icon" type="image/x-icon" href="{{ $favicon }}">
-</head>
-
 <form action="{{ route('auth.login.post') }}" method="post">
     @csrf
     <center style="margin-top: 100px;">

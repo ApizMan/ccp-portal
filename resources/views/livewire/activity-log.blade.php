@@ -1,7 +1,3 @@
-<head>
-    <link rel="icon" type="image/x-icon" href="{{ $favicon }}">
-</head>
-
 <div id="layoutSidenav">
 
 
