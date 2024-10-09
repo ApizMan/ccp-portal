@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">features</div>
-                <a class="nav-link" href="{{ route('home') }}">
+                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -26,6 +26,12 @@
                             href="{{ route('reserveBay.reserve_bay') }}">Reserve Bay</a>
                     </nav>
                 </div>
+                <div class="sb-sidenav-menu-heading">Promotion</div>
+                <a class="nav-link {{ request()->routeIs('promotion.promotion.monthly_pass') ? 'active' : '' }}"
+                    href="{{ route('promotion.promotion.monthly_pass') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-solid fa-tag"></i></div>
+                    Monthly Pass
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">

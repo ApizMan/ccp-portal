@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
 use App\Http\Controllers\MonthlyPassController;
 use App\Http\Controllers\ParkingController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReserveBayController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
@@ -96,6 +97,12 @@ Route::group(['middleware' => 'auth'], function () {
         // Approve or Reject from View
         Route::put('/update/status/approve/view/{id}', [ReserveBayController::class, 'updateStatusApproveView'])->name(name: 'reserve_bay_update_status_approve_view');
         Route::put('/update/status/reject/view/{id}', [ReserveBayController::class, 'updateStatusRejectView'])->name(name: 'reserve_bay_update_status_reject_view');
+    });
+
+    // Promotion
+    Route::prefix('promotion')->name('promotion.')->group(function () {
+        Route::get('/monthly-pass', [PromotionController::class, 'index'])->name(name: 'promotion.monthly_pass');
+        Route::get('/view/{id}', [PromotionController::class, 'view'])->name(name: 'promotion.monthly_pass_view');
     });
 
     // Activity Log
