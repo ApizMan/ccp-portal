@@ -16,6 +16,8 @@ class MonthlyPass extends Component
     public $data_users;
     public $datas;
 
+    public $promotion;
+
     public function mount()
     {
         $this->fetchData();
@@ -36,16 +38,26 @@ class MonthlyPass extends Component
         $data = file_get_contents($url);
         $this->data_users = json_decode($data, true); // true for associative array
 
+        $url = env('BASE_URL') . '/promotion/public';
+        $data = file_get_contents($url);
+        $this->promotion = json_decode($data, true); // true for associative array
+
         // Initialize $datas
         $this->datas = [];
 
         // Build the $datas array based on relationships
         foreach ($this->data_monthly_pass as $monthlyPass) {
             $userId = $monthlyPass['userId'];
+            $promotionId = $monthlyPass['promotionId'];
 
             // Find user by userId
             $user = array_filter($this->data_users, function ($user) use ($userId) {
                 return $user['id'] === $userId;
+            });
+
+            // Find user by userId
+            $event = array_filter($this->promotion, function ($promotion) use ($promotionId) {
+                return $promotion['id'] === $promotionId;
             });
 
             // Format the createdAt timestamp
@@ -55,6 +67,7 @@ class MonthlyPass extends Component
             $this->datas[] = [
                 'id' => $monthlyPass['id'],
                 'user' => $user ? array_values($user)[0] : null, // Store the user array
+                'event' => $event ? array_values($event)[0] : null,
                 'plateNumber' => $monthlyPass['plateNumber'],
                 'pbt' => $monthlyPass['pbt'],
                 'location' => $monthlyPass['location'],

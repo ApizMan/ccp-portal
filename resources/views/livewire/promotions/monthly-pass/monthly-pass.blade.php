@@ -16,8 +16,6 @@
 </head>
 
 <div id="layoutSidenav">
-
-
     <!-- Include the Sidebar -->
     @include('layouts.side-nav')
 
@@ -47,7 +45,7 @@
                             <li class="breadcrumb-item active">City Car Park</li>
                         </ol>
                     </div>
-                    <a class="btn btn-warning" href="{{ route('monthlyPass.monthly_pass_create') }}"
+                    <a class="btn btn-warning" href="{{ route('promotion.promotion.monthly_pass_create') }}"
                         role="button">Create New Promotion</a>
                 </div>
                 <div class="card mb-4">
@@ -62,7 +60,9 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>Description</th>
+                                        <th>Rate (%)</th>
                                         <th>Launching Date</th>
+                                        <th>Expired Date</th>
                                         <th>Image</th>
                                         <th>Created At</th>
                                         <th>Action</th>
@@ -77,16 +77,20 @@
                                                     style="text-decoration: none; color: black;">{{ $data['title'] }}</a>
                                             </td>
                                             <td>{{ $data['description'] }}</td>
+                                            <td>{{ $data['rate'] }}</td>
                                             <td>{{ $data['date'] }}</td>
-                                            <td>{{ $data['image'] }}</td>
+                                            <td>{{ $data['expired'] }}</td>
+                                            <td><a href="{{ $data['image'] }}" target="_blank"
+                                                    rel="noopener noreferrer"><img src="{{ $data['image'] }}"
+                                                        alt="promoImage" width="150" height="100"></a></td>
                                             <td>{{ $data['createdAt'] }}</td>
                                             <td>
                                                 <div class="d-flex mx-3 " style="gap: 10px;">
                                                     <a class="btn btn-primary"
-                                                        href="{{ route('monthlyPass.monthly_pass_edit', $data['id']) }}"
+                                                        href="{{ route('promotion.promotion.monthly_pass_edit', $data['id']) }}"
                                                         role="button"><i class="fa-solid fa-pen-to-square"></i></a>
                                                     <form
-                                                        action="{{ route('monthlyPass.monthly_pass_delete', $data['id']) }}"
+                                                        action="{{ route('promotion.promotion.monthly_pass_delete', $data['id']) }}"
                                                         method="POST" style="display: inline;"
                                                         onsubmit="return confirmDelete();">
                                                         @csrf

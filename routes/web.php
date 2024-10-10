@@ -103,6 +103,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('promotion')->name('promotion.')->group(function () {
         Route::get('/monthly-pass', [PromotionController::class, 'index'])->name(name: 'promotion.monthly_pass');
         Route::get('/view/{id}', [PromotionController::class, 'view'])->name(name: 'promotion.monthly_pass_view');
+        Route::get('/create', [PromotionController::class, 'create'])->name('promotion.monthly_pass_create');
+        Route::post('/store', [PromotionController::class, 'store'])->name('promotion.monthly_pass_store');
+        Route::get('/{id}', [PromotionController::class, 'edit'])->name(name: 'promotion.monthly_pass_edit');
+        Route::put('/update/{id}', [PromotionController::class, 'update'])->name(name: 'promotion.monthly_pass_update');
+        Route::delete('/delete/{id}', [PromotionController::class, 'destroy'])->name(name: 'promotion.monthly_pass_delete');
     });
 
     // Activity Log

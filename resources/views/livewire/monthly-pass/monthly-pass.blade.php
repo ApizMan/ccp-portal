@@ -78,6 +78,7 @@
                                         <th>PBT</th>
                                         <th>Location</th>
                                         <th>Amount (RM)</th>
+                                        <th>Promotion Event</th>
                                         <th>Duration</th>
                                         <th>Created At</th>
                                         <th>Action</th>
@@ -93,6 +94,7 @@
                                             <td>{{ $data['pbt'] }}</td>
                                             <td>{{ $data['location'] }}</td>
                                             <td>{{ number_format($data['amount'], 2) }}</td>
+                                            <td>{{ $data['event']['title'] ?? 'No Event' }}</td>
                                             <td>{{ $data['duration'] }}</td>
                                             <td>{{ $data['createdAt'] }}</td>
                                             <td>

@@ -39,11 +39,14 @@ class MonthlyPassController extends Controller
             'pbt' => 'required|string',
             'location' => 'required|string',
             'userId' => 'required|string', // Include userId in validation
+            'promotionId' => 'required|string',
             'amount' => 'required|numeric', // Ensure amount is numeric
             'duration' => 'required|string',
         ]);
 
         $validatedMonthlyPass['createdAt'] = now();
+
+        // dd($validatedMonthlyPass);
 
         // Send a PUT request for parking update
         $responseMonthlyPass = Http::post($url, $validatedMonthlyPass);
@@ -108,6 +111,7 @@ class MonthlyPassController extends Controller
             'pbt' => 'required|string',
             'location' => 'required|string',
             'userId' => 'required|string', // Include userId in validation
+            'promotionId' => 'required|string',
             'amount' => 'required|numeric', // Ensure amount is numeric
             'duration' => 'required|string',
         ]);

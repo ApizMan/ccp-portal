@@ -15,6 +15,8 @@ class CreateMonthlyPass extends Component
     public $data_users;
     public $data_pbt;
 
+    public $data_promotions;
+
     public function mount()
     {
         $this->fetchData();
@@ -33,6 +35,10 @@ class CreateMonthlyPass extends Component
         $url = env('BASE_URL') . '/pbt/public';
         $data = file_get_contents($url);
         $this->data_pbt = json_decode($data, true); // true for associative array
+
+        $url = env('BASE_URL') . '/promotion/public';
+        $data = file_get_contents($url);
+        $this->data_promotions = json_decode($data, true); // true for associative array
     }
 
     public function render()

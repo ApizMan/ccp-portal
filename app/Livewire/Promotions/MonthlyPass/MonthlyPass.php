@@ -18,51 +18,49 @@ class MonthlyPass extends Component
     private function fetchData()
     {
         try {
-            // Fetch parking data from the given URL
             $url = env('BASE_URL') . '/promotion/public';
             $data = file_get_contents($url);
 
-            // Check if $data is not false and decode it
             if ($data) {
                 $this->data_promotion = json_decode($data, true);
 
-                // If decoding returns null, assign an empty array
                 if (is_null($this->data_promotion)) {
                     $this->data_promotion = [];
                 }
             } else {
-                // If file_get_contents fails, initialize $data_promotion as an empty array
                 $this->data_promotion = [];
             }
 
-            // Initialize the $datas array
             $this->datas = [];
 
-            // Build the $datas array based on the fetched data
             foreach ($this->data_promotion as $monthlyPass) {
-                // Check if required fields exist in $monthlyPass
-                if (isset($monthlyPass['id'], $monthlyPass['title'], $monthlyPass['description'], $monthlyPass['date'], $monthlyPass['createdAt'], $monthlyPass['updatedAt'], $monthlyPass['image'])) {
-                    // Format the createdAt and updatedAt timestamps
-                    $date = (new \DateTime($monthlyPass['date']))->format('d-m-Y H:i');
-                    $createdAt = (new \DateTime($monthlyPass['createdAt']))->format('d-m-Y H:i');
+                // First, check if the required fields exist
+                if (isset($monthlyPass['id'], $monthlyPass['title'], $monthlyPass['date'], $monthlyPass['expiredDate'], $monthlyPass['createdAt'], $monthlyPass['updatedAt'], $monthlyPass['image'])) {
+                    // Then, check if the type is 'MonthlyPass'
+                    if ($monthlyPass['type'] == 'MonthlyPass') {
+                        $date = (new \DateTime($monthlyPass['date']))->format('d-m-Y H:i');
+                        $expired = (new \DateTime($monthlyPass['expiredDate']))->format('d-m-Y H:i');
+                        $createdAt = (new \DateTime($monthlyPass['createdAt']))->format('d-m-Y H:i');
 
-                    // Append each promotion to the $datas array
-                    $this->datas[] = [
-                        'id' => $monthlyPass['id'],
-                        'title' => $monthlyPass['title'],
-                        'description' => $monthlyPass['description'],
-                        'date' => $date,
-                        'image' => $monthlyPass['image'],
-                        'createdAt' => $createdAt, // Use formatted date
-                        'updatedAt' => (new \DateTime($monthlyPass['updatedAt']))->format('d-m-Y H:i'), // Format updatedAt as well
-                    ];
+                        $this->datas[] = [
+                            'id' => $monthlyPass['id'],
+                            'title' => $monthlyPass['title'],
+                            'description' => $monthlyPass['description'] ?? 'N/A',
+                            'rate' => number_format($monthlyPass['rate'], 2),
+                            'date' => $date,
+                            'expired' => $expired ?? 'N/A',
+                            'image' => $monthlyPass['image'],
+                            'createdAt' => $createdAt,
+                            'updatedAt' => (new \DateTime($monthlyPass['updatedAt']))->format('d-m-Y H:i'),
+                        ];
+                    }
                 }
             }
         } catch (\Exception $e) {
-            // Handle exceptions and initialize $datas as an empty array in case of an error
             $this->datas = [];
         }
     }
+
 
     public function render()
     {
