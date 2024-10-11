@@ -85,13 +85,12 @@ class PromotionController extends Controller
                 ]
             );
 
-            // Get the public URL of the uploaded file
-            $urlImage = $object->info()['mediaLink'];
+            // Generate the public URL of the uploaded file
+            $urlImage = "https://storage.googleapis.com/" . env('FIREBASE_STORAGE_BUCKET') . "/" . $filename;
 
             // Append the image URL to the validated data
             $validatedData['image'] = $urlImage;
         }
-
 
         // Send a POST request with the validated data
         $response = Http::post($url, $validatedData);
@@ -118,7 +117,6 @@ class PromotionController extends Controller
             ]);
         }
     }
-
 
     public function edit($id)
     {
@@ -191,8 +189,8 @@ class PromotionController extends Controller
                 ]
             );
 
-            // Get the public URL of the uploaded file
-            $urlImage = $object->info()['mediaLink'];
+            // Generate the public URL of the uploaded file
+            $urlImage = "https://storage.googleapis.com/" . env('FIREBASE_STORAGE_BUCKET') . "/" . $filename;
 
             // Append the image URL to the validated data
             $validatedData['image'] = $urlImage;

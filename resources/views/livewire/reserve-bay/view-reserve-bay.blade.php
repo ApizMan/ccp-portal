@@ -210,19 +210,19 @@
                     <div class="mb-3">
                         <label for="designatedBayPicture" class="form-label">Designated Bay Picture</label>
                         <a href="{{ $data['designatedBayPicture'] }}" target="_blank" class="form-control"
-                            rel="noopener noreferrer">{{ $data['designatedBayPicture'] }}</a>
+                            rel="noopener noreferrer">View More</a>
                     </div>
 
                     <div class="mb-3">
                         <label for="registerNumberPicture" class="form-label">Register Number Picture</label>
                         <a href="{{ $data['registerNumberPicture'] }}" target="_blank" class="form-control"
-                            rel="noopener noreferrer">{{ $data['registerNumberPicture'] }}</a>
+                            rel="noopener noreferrer">View More</a>
                     </div>
 
                     <div class="mb-3">
                         <label for="idCardPicture" class="form-label">ID Card Picture</label>
                         <a href="{{ $data['idCardPicture'] }}" target="_blank" class="form-control"
-                            rel="noopener noreferrer">{{ $data['idCardPicture'] }}</a>
+                            rel="noopener noreferrer">View More</a>
                     </div>
                 </form>
             </div>
