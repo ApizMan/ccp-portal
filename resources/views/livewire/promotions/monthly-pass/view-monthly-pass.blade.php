@@ -70,7 +70,7 @@
                 <div class="mb-3">
                     <label for="image" class="form-label">Image Promotion</label>
                     <a href="{{ $data['image'] }}" target="_blank" class="form-control"
-                        style="text-decoration: none; color: rgb(0, 67, 251);" rel="noopener noreferrer">{{ $data['image'] }}</a>
+                        style="text-decoration: none; color: rgb(0, 67, 251);" rel="noopener noreferrer">View More</a>
                 </div>
             </div>
         </main>
