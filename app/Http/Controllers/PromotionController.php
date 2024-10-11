@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ActivityLog;
 use App\Models\User;
 use Carbon\Carbon;
+use Google\Cloud\Storage\StorageClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -51,46 +52,49 @@ class PromotionController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'rate' => 'required|numeric|decimal:0,2',
-            'date' => 'required|date_format:Y-m-d\TH:i', // Validate the datetime-local format
+            'rate' => 'required|numeric|between:0,100', // Updated to be between 0 and 100
+            'date' => 'required|date_format:Y-m-d\TH:i',
             'expiredDate' => 'required|date_format:Y-m-d\TH:i',
-            'image' => 'required|max:2048',
+            'image' => 'required|image|max:2048', // Ensure the file is an image
         ]);
 
         // Convert the 'date' field to ISO 8601 format with UTC timezone
-        $dateTime = Carbon::parse($validatedData['date'])->toIso8601String();
-        $validatedData['date'] = $dateTime;
-
-        // Convert the 'date' field to ISO 8601 format with UTC timezone
-        $dateTimeExpired = Carbon::parse($validatedData['expiredDate'])->toIso8601String();
-        $validatedData['expiredDate'] = $dateTimeExpired;
+        $validatedData['date'] = Carbon::parse($validatedData['date'])->toIso8601String();
+        $validatedData['expiredDate'] = Carbon::parse($validatedData['expiredDate'])->toIso8601String();
 
         // Check if a file was uploaded
         if ($request->hasFile('image')) {
             // Get the uploaded file
             $file = $request->file('image');
 
-            // dd($file);
+            // Define a unique file name and include the uploads folder
+            $filename = 'uploads/' . time() . '-' . $file->getClientOriginalName();
 
-            // Define a unique file name
-            $filename = time() . '-' . $file->getClientOriginalName();
+            // Upload the file to Firebase Storage
+            $storage = new StorageClient([
+                'keyFilePath' => env('FIREBASE_CREDENTIALS'),
+            ]);
+            $bucket = $storage->bucket(env('FIREBASE_STORAGE_BUCKET'));
 
-            // Store the file in the 'public/images' directory (you can customize the path)
-            $path = $file->storeAs('public/images', $filename);
+            // Upload the file
+            $object = $bucket->upload(
+                fopen($file->getRealPath(), 'r'),
+                [
+                    'name' => $filename,
+                    'predefinedAcl' => 'publicRead', // Make the file publicly accessible
+                ]
+            );
 
-            // If you need to get the URL to the stored file
-            $urlImage = Storage::url($path);
+            // Get the public URL of the uploaded file
+            $urlImage = $object->info()['mediaLink'];
 
             // Append the image URL to the validated data
-            $validatedData['image'] = env('APP_URL') . $urlImage;
+            $validatedData['image'] = $urlImage;
         }
 
-        // dd($validatedData);
 
         // Send a POST request with the validated data
         $response = Http::post($url, $validatedData);
-
-        // dd($response);
 
         // Check if the promotion creation was successful
         if ($response->successful()) {
@@ -114,6 +118,7 @@ class PromotionController extends Controller
             ]);
         }
     }
+
 
     public function edit($id)
     {
@@ -168,20 +173,31 @@ class PromotionController extends Controller
             // Get the uploaded file
             $file = $request->file('image');
 
-            // dd($file);
+            // Define a unique file name and include the uploads folder
+            $filename = 'uploads/' . time() . '-' . $file->getClientOriginalName();
 
-            // Define a unique file name
-            $filename = time() . '-' . $file->getClientOriginalName();
+            // Upload the file to Firebase Storage
+            $storage = new StorageClient([
+                'keyFilePath' => env('FIREBASE_CREDENTIALS'),
+            ]);
+            $bucket = $storage->bucket(env('FIREBASE_STORAGE_BUCKET'));
 
-            // Store the file in the 'public/images' directory (you can customize the path)
-            $path = $file->storeAs('public/images', $filename);
+            // Upload the file
+            $object = $bucket->upload(
+                fopen($file->getRealPath(), 'r'),
+                [
+                    'name' => $filename,
+                    'predefinedAcl' => 'publicRead', // Make the file publicly accessible
+                ]
+            );
 
-            // If you need to get the URL to the stored file
-            $urlImage = Storage::url($path);
+            // Get the public URL of the uploaded file
+            $urlImage = $object->info()['mediaLink'];
 
             // Append the image URL to the validated data
-            $validatedData['image'] = env('APP_URL') . $urlImage;
+            $validatedData['image'] = $urlImage;
         }
+
 
         // dd($validatedMonthlyPass);
 
