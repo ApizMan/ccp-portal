@@ -4,7 +4,8 @@
             <i class="fas fa-chart-bar me-1"></i>
             Compound Transaction Chart {{ Date::now()->format('Y') }}
         </div>
-        <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas>
+        <div class="card-body">
+            <canvas id="compoundChart" width="100%" height="40"></canvas>
         </div>
     </div>
 </div>
@@ -15,47 +16,47 @@
     // Set new default font family and font color to mimic Bootstrap's default styling
     Chart.defaults.global.defaultFontFamily =
         '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-    Chart.defaults.global.defaultFontColor = "#292b2c";
+    Chart.defaults.global.defaultFontColor = "#292b2b";
 
     // Bar Chart Example
-    var ctx = document.getElementById("myBarChart");
-    var myLineChart = new Chart(ctx, {
+    var ctx2 = document.getElementById("compoundChart");
+
+    var reserveChart = new Chart(ctx2, {
         type: "bar",
         data: {
-            labels: ["January", "February", "March", "April", "May", "June"],
+            labels: @json($compound['compoundLabels']), // Labels for the chart
             datasets: [{
-                label: "Revenue",
+                label: "Compound Count",
                 backgroundColor: "rgba(2,117,216,1)",
                 borderColor: "rgba(2,117,216,1)",
-                data: [4215, 5312, 6251, 7841, 9821, 14984],
-            }, ],
+                data: @json($compound['compoundCounts']), // Data for the chart
+            }],
         },
         options: {
             scales: {
                 xAxes: [{
-                    time: {
-                        unit: "month",
-                    },
                     gridLines: {
                         display: false,
                     },
                     ticks: {
-                        maxTicksLimit: 6,
+                        autoSkip: true,
+                        maxTicksLimit: 12,
                     },
-                }, ],
+                }],
                 yAxes: [{
                     ticks: {
-                        min: 0,
-                        max: 15000,
-                        maxTicksLimit: 5,
+                        beginAtZero: true,
+                        max: Math.max(...
+                            @json($compound['compoundCounts'])), // Set max based on sorted counts
+                        maxTicksLimit: 5
                     },
                     gridLines: {
                         display: true,
                     },
-                }, ],
+                }],
             },
             legend: {
-                display: false,
+                display: true,
             },
         },
     });

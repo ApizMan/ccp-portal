@@ -14,7 +14,7 @@
 
                     @include('charts.parking-chart', ['parking' => $parking])
 
-                    @include('charts.compound-chart')
+                    @include('charts.compound-chart', ['compound' => $compoundData])
 
                     @include('charts.monthly-pass-chart', ['monthlyPass' => $monthlyPassData])
 

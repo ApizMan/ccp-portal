@@ -10,10 +10,6 @@ include_once app_path('constants.php');
 class Parking extends Component
 {
 
-    public $logo;
-    public $logo_white;
-    public $favicon;
-
     public $data_parking;
     public $data_users;
     public $data_transactions;
@@ -22,9 +18,6 @@ class Parking extends Component
     public function mount()
     {
         $this->fetchData();
-        $this->logo = CCP_LOGO;
-        $this->logo_white = CCP_LOGO_WHITE;
-        $this->favicon = FAVICON;
     }
 
     public function fetchData()

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RequestPasswordController;
+use App\Http\Controllers\CompoundController;
 use App\Http\Controllers\MonthlyPassController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PromotionController;
@@ -108,6 +109,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}', [PromotionController::class, 'edit'])->name(name: 'promotion.monthly_pass_edit');
         Route::put('/update/{id}', [PromotionController::class, 'update'])->name(name: 'promotion.monthly_pass_update');
         Route::delete('/delete/{id}', [PromotionController::class, 'destroy'])->name(name: 'promotion.monthly_pass_delete');
+    });
+
+    // Compound
+    Route::prefix('compound')->name('compound.')->group(function () {
+        Route::get('/', [CompoundController::class, 'index'])->name('compound_public');
+        Route::get('/view/{id}', [CompoundController::class, 'view'])->name('compound_public_view');
+
+        Route::get('/parking/export-excel', [CompoundController::class, 'exportExcel'])->name('compound.export_excel');
+        Route::get('/parking/export-pdf', [CompoundController::class, 'exportPDF'])->name('compound.export_pdf');
     });
 
     // Activity Log
