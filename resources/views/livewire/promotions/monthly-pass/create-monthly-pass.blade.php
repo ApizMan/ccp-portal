@@ -27,6 +27,14 @@
                             step="0.01" required>
                     </div>
                     <div class="mb-3">
+                        <label for="rate" class="form-label">Time Can Be Use</label>
+                        <select name="timeUse" id="timeUse" class="form-select">
+                            <option disabled>Select Time Can Be Used</option>
+                            <option value="0">Single Time</option>
+                            <option value="1">Multiple Time</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="launchDate" class="form-label">Launching Date & Time</label>
                         <input type="datetime-local" name="date" class="form-control" id="launchDate" required>
                     </div>

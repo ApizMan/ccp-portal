@@ -53,10 +53,13 @@ class PromotionController extends Controller
             'title' => 'required|string',
             'description' => 'nullable|string',
             'rate' => 'required|numeric|between:0,100', // Updated to be between 0 and 100
+            'timeUse' => 'required',
             'date' => 'required|date_format:Y-m-d\TH:i',
             'expiredDate' => 'required|date_format:Y-m-d\TH:i',
             'image' => 'required|image|max:2048', // Ensure the file is an image
         ]);
+
+        $validatedData['timeUse'] = (int) $validatedData['timeUse'];
 
         // Convert the 'date' field to ISO 8601 format with UTC timezone
         $validatedData['date'] = Carbon::parse($validatedData['date'])->toIso8601String();
@@ -153,10 +156,13 @@ class PromotionController extends Controller
             'title' => 'required|string',
             'description' => 'nullable|string',
             'rate' => 'required|numeric|decimal:0,2',
+            'timeUse' => 'required',
             'date' => 'required|date_format:Y-m-d\TH:i', // Validate the datetime-local format
             'expiredDate' => 'required|date_format:Y-m-d\TH:i',
             'image' => 'nullable|max:2048',
         ]);
+
+        $validatedData['timeUse'] = (int) $validatedData['timeUse'];
 
         // Convert the 'date' field to ISO 8601 format with UTC timezone
         $dateTime = Carbon::parse($validatedData['date'])->toIso8601String();
@@ -197,7 +203,7 @@ class PromotionController extends Controller
         }
 
 
-        // dd($validatedMonthlyPass);
+        // dd($validatedData);
 
         // Send a PUT request for parking update
         $response = Http::put($url, $validatedData);

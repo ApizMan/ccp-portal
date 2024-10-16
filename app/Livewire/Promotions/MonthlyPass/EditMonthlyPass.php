@@ -29,6 +29,7 @@ class EditMonthlyPass extends Component
             'title' => $this->promotionData['title'],
             'description' => $this->promotionData['description'],
             'rate' => number_format($this->promotionData['rate'], 2),
+            'timeUse' => $this->promotionData['timeUse'],
             'date' => $date,
             'expired' => $expired,
             'image' => $this->promotionData['image'],
