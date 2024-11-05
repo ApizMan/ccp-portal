@@ -33,6 +33,11 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-solid fa-tag"></i></div>
                     Monthly Pass
                 </a>
+                <a class="nav-link {{ request()->routeIs('promotion.compound.compound') ? 'active' : '' }}"
+                    href="{{ route('promotion.compound.compound') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-solid fa-tag"></i></div>
+                    Compound
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">

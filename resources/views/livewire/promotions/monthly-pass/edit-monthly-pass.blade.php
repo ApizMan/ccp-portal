@@ -31,11 +31,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="rate" class="form-label">Time Can Be Use</label>
-                        <select name="timeUse" id="timeUse" class="form-select">
+                        <select name="frequency" id="frequency" class="form-select">
                             <option disabled>Select Time Can Be Used</option>
-                            <option value="0" @if ($data['timeUse'] == '0') selected @endif>Single Time
+                            <option value="0" @if ($data['frequency'] == '0') selected @endif>Single Time
                             </option>
-                            <option value="1" @if ($data['timeUse'] == '1') selected @endif>Multiple Time
+                            <option value="1" @if ($data['frequency'] == '1') selected @endif>Multiple Time
                             </option>
                         </select>
                     </div>

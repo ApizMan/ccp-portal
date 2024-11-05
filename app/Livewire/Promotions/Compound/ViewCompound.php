@@ -1,25 +1,19 @@
 <?php
 
-namespace App\Livewire\Promotions\MonthlyPass;
+namespace App\Livewire\Promotions\Compound;
 
 use DateTime;
 use Livewire\Component;
 
-class EditMonthlyPass extends Component
+class ViewCompound extends Component
 {
-
     public $promotionData;
     public $data;
 
     public function mount()
     {
-        $this->fetchData();
-    }
-
-    public function fetchData()
-    {
         // Format the createdAt timestamp
-        $date = (new DateTime($this->promotionData['date']))->format('Y-m-d\TH:i'); // Format for datetime-local
+        $date = (new DateTime($this->promotionData['date']))->format('d-m-Y H:i');
         $expired = (new DateTime($this->promotionData['expiredDate']))->format('Y-m-d\TH:i'); // Format for datetime-local
         $createdAt = (new DateTime($this->promotionData['createdAt']))->format('d-m-Y H:i');
 
@@ -36,12 +30,10 @@ class EditMonthlyPass extends Component
             'createdAt' => $createdAt, // Use formatted date
             'updatedAt' => (new DateTime($this->promotionData['updatedAt']))->format('d-m-Y H:i'), // Format updatedAt as well
         ];
-
-        // dd($this->data);
     }
 
     public function render()
     {
-        return view('livewire.promotions.monthly-pass.edit-monthly-pass');
+        return view('livewire.promotions.compound.view-compound');
     }
 }

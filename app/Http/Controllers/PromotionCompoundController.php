@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
-class PromotionController extends Controller
+class PromotionCompoundController extends Controller
 {
     public function index()
     {
-        return view('promotions.monthly_pass.monthly-pass');
+        return view('promotions.compound.compound');
     }
 
     public function view($id)
@@ -28,19 +28,12 @@ class PromotionController extends Controller
         // Decode the JSON data if necessary
         $decodedData = json_decode($data, true); // true for associative array
 
-        return view(
-            'promotions.monthly_pass.view-monthly-pass',
-            compact(
-                [
-                    'decodedData',
-                ],
-            ),
-        );
+        return view('promotions.compound.view-compound', compact(['decodedData']));
     }
 
     public function create()
     {
-        return view('promotions.monthly_pass.create-monthly-pass');
+        return view('promotions.compound.create-compound');
     }
 
     public function store(Request $request)
@@ -61,7 +54,7 @@ class PromotionController extends Controller
 
         $validatedData['frequency'] = (int) $validatedData['frequency'];
 
-        $validatedData['type'] = "MonthlyPass";
+        $validatedData['type'] = 'Compound';
 
         // Convert the 'date' field to ISO 8601 format with UTC timezone
         $validatedData['date'] = Carbon::parse($validatedData['date'])->toIso8601String();
@@ -82,16 +75,13 @@ class PromotionController extends Controller
             $bucket = $storage->bucket(env('FIREBASE_STORAGE_BUCKET'));
 
             // Upload the file
-            $object = $bucket->upload(
-                fopen($file->getRealPath(), 'r'),
-                [
-                    'name' => $filename,
-                    'predefinedAcl' => 'publicRead', // Make the file publicly accessible
-                ]
-            );
+            $object = $bucket->upload(fopen($file->getRealPath(), 'r'), [
+                'name' => $filename,
+                'predefinedAcl' => 'publicRead', // Make the file publicly accessible
+            ]);
 
             // Generate the public URL of the uploaded file
-            $urlImage = "https://storage.googleapis.com/" . env('FIREBASE_STORAGE_BUCKET') . "/" . $filename;
+            $urlImage = 'https://storage.googleapis.com/' . env('FIREBASE_STORAGE_BUCKET') . '/' . $filename;
 
             // Append the image URL to the validated data
             $validatedData['image'] = $urlImage;
@@ -107,13 +97,13 @@ class PromotionController extends Controller
             // Log the activity
             ActivityLog::create([
                 'user_id' => $user->id,
-                'type' => 'Promotion Monthly Pass',
+                'type' => 'Promotion Compound',
                 'activity' => 'Create',
                 'description' => $user->name . ' created a new promotion for ' . $validatedData['title'],
             ]);
 
             // Redirect or return a success message
-            return redirect()->route('promotion.promotion.monthly_pass')->with('status', 'Promotions information created successfully.');
+            return redirect()->route('promotion.compound.compound')->with('status', 'Promotions information created successfully.');
         } else {
             // Handle the error accordingly
             return back()->withErrors([
@@ -136,7 +126,7 @@ class PromotionController extends Controller
         // dd($decodedData);
 
         return view(
-            'promotions.monthly_pass.edit-monthly-pass',
+            'promotions.compound.edit-compound',
             compact(
                 [
                     'decodedData',
@@ -158,11 +148,13 @@ class PromotionController extends Controller
             'title' => 'required|string',
             'description' => 'nullable|string',
             'rate' => 'required|numeric|decimal:0,2',
-            'frequency' => 'required',
+            'frequency' => 'required|numeric',
             'date' => 'required|date_format:Y-m-d\TH:i', // Validate the datetime-local format
             'expiredDate' => 'required|date_format:Y-m-d\TH:i',
             'image' => 'nullable|max:2048',
         ]);
+
+        // dd($validatedData);
 
         $validatedData['frequency'] = (int) $validatedData['frequency'];
 
@@ -217,13 +209,13 @@ class PromotionController extends Controller
             // Log the activity
             ActivityLog::create([
                 'user_id' => $user->id,
-                'type' => 'Promotion Monthly Pass',
+                'type' => 'Promotion Compound',
                 'activity' => 'Edit',
                 'description' => $user->name . ' edited the promotion for ' . $validatedData['title'],
             ]);
 
             // Redirect or return a success message
-            return redirect()->route('promotion.promotion.monthly_pass')->with('status', 'Promotions information updated successfully.');
+            return redirect()->route('promotion.compound.compound')->with('status', 'Promotions information updated successfully.');
         } else {
             // Handle the error accordingly
             return back()->withErrors([
@@ -248,13 +240,13 @@ class PromotionController extends Controller
             // Log the activity
             ActivityLog::create([
                 'user_id' => $user->id,
-                'type' => 'Promotion Monthly Pass',
+                'type' => 'Promotion Compound',
                 'activity' => 'Delete',
                 'description' => $user->name . ' deleted the promotion.',
             ]);
 
             // Redirect or return a success message
-            return redirect()->route('promotion.promotion.monthly_pass')->with('status', 'Promotions information deleted successfully.');
+            return redirect()->route('promotion.compound.compound')->with('status', 'Promotions information deleted successfully.');
         } else {
             // Handle the error accordingly
             return back()->withErrors([

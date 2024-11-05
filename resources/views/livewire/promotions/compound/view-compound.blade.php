@@ -41,7 +41,7 @@
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
                     <div>
-                        <h1 class="mt-4">View Promotion Monthly Pass</h1>
+                        <h1 class="mt-4">View Promotion Compound</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">
                                 {{ $data['title'] }}
@@ -62,8 +62,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="rate" class="form-label">Rate</label>
-                    <input type="number" name="rate" class="form-control" id="rate" value="{{ $data['rate'] }}"
-                        min="0" step="0.01" readonly>
+                    <input type="number" name="rate" class="form-control" id="rate"
+                        value="{{ $data['rate'] }}" min="0" step="0.01" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="rate" class="form-label">Time Can Be Use</label>
@@ -78,7 +78,7 @@
                 <div class="mb-3">
                     <label for="expiredDate" class="form-label">Expired Date & Time</label>
                     <input type="datetime-local" name="expiredDate" class="form-control" id="expiredDate"
-                        value="{{ $data['expired'] }}" readonly>
+                        value="{{ $data['expired'] }}" required>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image Promotion</label>

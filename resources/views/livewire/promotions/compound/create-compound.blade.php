@@ -6,11 +6,11 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Create New Promotion Monthly Pass</h1>
+                <h1 class="mt-4">Create New Promotion Compound</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">City Car Park</li>
                 </ol>
-                <form class="mx-5 my-5" action="{{ route('promotion.promotion.monthly_pass_store') }}" method="POST"
+                <form class="mx-5 my-5" action="{{ route('promotion.compound.compound_store') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">

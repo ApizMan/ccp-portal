@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Livewire\Promotions\MonthlyPass;
+namespace App\Livewire\Promotions\Compound;
 
 use DateTime;
 use Livewire\Component;
 
-class EditMonthlyPass extends Component
+class EditCompound extends Component
 {
-
     public $promotionData;
     public $data;
 
@@ -42,6 +41,6 @@ class EditMonthlyPass extends Component
 
     public function render()
     {
-        return view('livewire.promotions.monthly-pass.edit-monthly-pass');
+        return view('livewire.promotions.compound.edit-compound');
     }
 }
