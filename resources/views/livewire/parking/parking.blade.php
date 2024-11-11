@@ -68,6 +68,7 @@
                             <thead>
                                 @if (count($datas) > 0)
                                     <tr>
+                                        <th>No. Receipt</th>
                                         <th>Name</th>
                                         <th>Plate Number</th>
                                         <th>PBT</th>
@@ -83,6 +84,7 @@
                                 @if (count($datas) > 0)
                                     @foreach ($datas as $data)
                                         <tr>
+                                            <td>{{ $data['noReceipt'] }}</td>
                                             <td>{{ $data['user']['firstName'] }} {{ $data['user']['secondName'] }}</td>
                                             <td>{{ $data['plateNumber'] }}</td>
                                             <td>{{ $data['pbt'] }}</td>

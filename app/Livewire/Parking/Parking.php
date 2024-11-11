@@ -60,6 +60,7 @@ class Parking extends Component
                 'id' => $parking['id'],
                 'user' => $user ? array_values($user)[0] : null, // Store the user array
                 'transaction' => $transaction ? array_values($transaction)[0] : null, // Store the transaction array
+                'noReceipt' => $parking['noReceipt'],
                 'plateNumber' => $parking['plateNumber'],
                 'pbt' => $parking['pbt'],
                 'location' => $parking['location'],
