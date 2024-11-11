@@ -1,7 +1,7 @@
 <form action="{{ route('auth.login.post') }}" method="post">
     @csrf
     <center style="margin-top: 100px;">
-        <div class="card" style="width: 25rem; padding-top: 50px; padding-bottom: 20px;">
+        <div class="card" style="width: 30rem; padding-top: 50px; padding-bottom: 20px;">
             <img src="{{ $logo }}" alt="CCP Logo" style="padding-left: 20%; padding-right: 20%;">
             <div class="card-body">
                 <h3 class="card-title">Login</h3>
@@ -11,9 +11,11 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="email" placeholder="Staff's email"
                             aria-label="Staff's username" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">@raisevest.com.my</span>
-                        </div>
+                        <select class="input-group-text" name="type_email" id="type_email">
+                            <option value="@raisevest.com.my">@raisevest.com.my</option>
+                            <option value="@vistasummerose.com.my">@vistasummerose.com.my</option>
+                            <option value="@vista-summerose.com.my">@vista-summerose.com.my</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group mb-5" style="text-align: left;">

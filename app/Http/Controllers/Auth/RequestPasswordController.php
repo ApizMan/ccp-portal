@@ -20,14 +20,16 @@ class RequestPasswordController extends Controller
         // Validate the request
         $request->validate([
             'email' => 'required|string',
+            'type_email' => 'required|string',
         ]);
 
-        // Get the email prefix and append the domain
+        // Get the email prefix and domain from the request and combine them
         $emailPrefix = $request->input('email');
-        $email = $emailPrefix . '@raisevest.com.my';
+        $domain = $request->input('type_email');
+        $email = $emailPrefix . $domain;
 
         // Generate a random password
-        $randomPassword = Str::random(10); // You can adjust the length as needed
+        $randomPassword = Str::random(10); // Adjust the length as needed
 
         // Store user credentials in the database
         $user = DB::table('users')->updateOrInsert(
@@ -42,8 +44,7 @@ class RequestPasswordController extends Controller
 
         // Send the password via email
         Mail::send('auth.password-reset', ['password' => $randomPassword], function ($message) use ($email) {
-            $message->to($email)
-                ->subject('Your Password');
+            $message->to($email)->subject('Your Password');
         });
 
         return redirect()->route('auth.login')->with('status', 'A new password has been sent to your email.');

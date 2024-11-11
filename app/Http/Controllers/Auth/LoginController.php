@@ -18,12 +18,14 @@ class LoginController extends Controller
         // Validate the request
         $request->validate([
             'email' => 'required|string',
+            'type_email' => 'required|string',
             'password' => 'required|string',
         ]);
 
         // Add domain to the email input
         $emailPrefix = $request->input('email');
-        $email = $emailPrefix . '@raisevest.com.my';
+        $domain = $request->input('type_email');
+        $email = $emailPrefix . $domain;
         $password = $request->input('password');
 
         // Attempt to log in the user using Laravel's Auth facade
