@@ -68,6 +68,7 @@ class MonthlyPass extends Component
                 'id' => $monthlyPass['id'],
                 'user' => $user ? array_values($user)[0] : null, // Store the user array
                 'event' => $event ? array_values($event)[0] : null,
+                'noReceipt' => $monthlyPass['noReceipt'],
                 'plateNumber' => $monthlyPass['plateNumber'],
                 'pbt' => $monthlyPass['pbt'],
                 'location' => $monthlyPass['location'],

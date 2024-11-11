@@ -68,6 +68,7 @@ class EditParking extends Component
             'id' => $this->parkingData['id'],
             'user' => $user ? array_values($user)[0] : null, // Store the user array
             'transaction' => $transaction ? array_values($transaction)[0] : null, // Store the transaction array
+            'noReceipt' => $this->parkingData['noReceipt'],
             'plateNumber' => $this->parkingData['plateNumber'],
             'pbt' => $this->parkingData['pbt'],
             'location' => $this->parkingData['location'],

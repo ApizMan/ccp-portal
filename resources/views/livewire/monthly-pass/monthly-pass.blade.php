@@ -23,20 +23,20 @@
 
     <div id="layoutSidenav_content">
         @if (session('status'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert" id="status-alert">
-                {{ session('status') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="status-alert">
+            {{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
 
         @if ($errors->any())
-            <div class="alert alert-danger" id="error-alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="alert alert-danger" id="error-alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
         <main>
             <div class="container-fluid px-4">
@@ -72,60 +72,61 @@
                         <table id="datatablesSimple">
                             <thead>
                                 @if (count($datas) > 0)
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Plate Number</th>
-                                        <th>PBT</th>
-                                        <th>Location</th>
-                                        <th>Amount (RM)</th>
-                                        <th>Promotion Event</th>
-                                        <th>Duration</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
-                                    </tr>
+                                <tr>
+                                    <th>No. Receipt</th>
+                                    <th>Name</th>
+                                    <th>Plate Number</th>
+                                    <th>PBT</th>
+                                    <th>Location</th>
+                                    <th>Amount (RM)</th>
+                                    <th>Promotion Event</th>
+                                    <th>Duration</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
                                 @endif
                             </thead>
                             <tbody>
                                 @if (count($datas) > 0)
-                                    @foreach ($datas as $data)
-                                        <tr>
-                                            <td>{{ $data['user']['firstName'] }} {{ $data['user']['secondName'] }}</td>
-                                            <td>{{ $data['plateNumber'] }}</td>
-                                            <td>{{ $data['pbt'] }}</td>
-                                            <td>{{ $data['location'] }}</td>
-                                            <td>{{ number_format($data['amount'], 2) }}</td>
-                                            <td>{{ $data['event']['title'] ?? 'No Event' }}</td>
-                                            <td>{{ $data['duration'] }}</td>
-                                            <td>{{ $data['createdAt'] }}</td>
-                                            <td>
-                                                <div class="d-flex mx-3 " style="gap: 10px;">
-                                                    <a class="btn btn-primary"
-                                                        href="{{ route('monthlyPass.monthly_pass_edit', $data['id']) }}"
-                                                        role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                    <form
-                                                        action="{{ route('monthlyPass.monthly_pass_delete', $data['id']) }}"
-                                                        method="POST" style="display: inline;"
-                                                        onsubmit="return confirmDelete();">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger" role="button">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                @foreach ($datas as $data)
+                                <tr>
+                                    <td>{{ $data['noReceipt'] }}</td>
+                                    <td>{{ $data['user']['firstName'] }} {{ $data['user']['secondName'] }}</td>
+                                    <td>{{ $data['plateNumber'] }}</td>
+                                    <td>{{ $data['pbt'] }}</td>
+                                    <td>{{ $data['location'] }}</td>
+                                    <td>{{ number_format($data['amount'], 2) }}</td>
+                                    <td>{{ $data['event']['title'] ?? 'No Event' }}</td>
+                                    <td>{{ $data['duration'] }}</td>
+                                    <td>{{ $data['createdAt'] }}</td>
+                                    <td>
+                                        <div class="d-flex mx-3 " style="gap: 10px;">
+                                            <a class="btn btn-primary"
+                                                href="{{ route('monthlyPass.monthly_pass_edit', $data['id']) }}"
+                                                role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <form action="{{ route('monthlyPass.monthly_pass_delete', $data['id']) }}"
+                                                method="POST" style="display: inline;"
+                                                onsubmit="return confirmDelete();">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger" role="button">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
 
-                                                    <script>
-                                                        function confirmDelete() {
+                                            <script>
+                                                function confirmDelete() {
                                                             return confirm("Are you sure you want to delete this item?");
                                                         }
-                                                    </script>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                            </script>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                                 @else
-                                    <tr>
-                                        <td colspan="8">No data found</td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="8">No data found</td>
+                                </tr>
                                 @endif
                             </tbody>
                         </table>

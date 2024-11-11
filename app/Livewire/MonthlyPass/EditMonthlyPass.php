@@ -9,7 +9,6 @@ include_once app_path('constants.php');
 
 class EditMonthlyPass extends Component
 {
-
     public $monthlyPassId;
     public $logo;
     public $logo_white;
@@ -32,7 +31,6 @@ class EditMonthlyPass extends Component
 
     public function fetchData()
     {
-
         $url = env('BASE_URL') . '/auth/users';
         $data = file_get_contents($url);
         $this->data_users = json_decode($data, true); // true for associative array
@@ -70,6 +68,7 @@ class EditMonthlyPass extends Component
             'id' => $this->monthlyPassData['id'],
             'user' => $user ? array_values($user)[0] : null, // Store the user array
             'event' => $event ? array_values($event)[0] : null, // Store the user array
+            'noReceipt' => $this->monthlyPassData['noReceipt'],
             'plateNumber' => $this->monthlyPassData['plateNumber'],
             'pbt' => $this->monthlyPassData['pbt'],
             'location' => $this->monthlyPassData['location'],

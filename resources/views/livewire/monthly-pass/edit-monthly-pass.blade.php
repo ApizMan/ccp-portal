@@ -8,10 +8,10 @@
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Edit Parking</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item active">{{ $data['plateNumber'] }}</li>
+                    <li class="breadcrumb-item active">{{ $data['noReceipt'] }}</li>
                 </ol>
-                <form class="mx-5 my-5" action="{{ route('monthlyPass.monthly_pass_update', ['id' => $monthlyPassId]) }}"
-                    method="POST">
+                <form class="mx-5 my-5"
+                    action="{{ route('monthlyPass.monthly_pass_update', ['id' => $monthlyPassId]) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
@@ -19,9 +19,9 @@
                         <select class="form-select" id="username" name="userId">
                             <option disabled>Select Username</option>
                             @foreach ($data_users as $user)
-                                <option @if ($data['user']['id'] == $user['id']) selected @endif value="{{ $user['id'] }}">
-                                    {{ $user['firstName'] }} {{ $user['secondName'] }}
-                                </option>
+                            <option @if ($data['user']['id']==$user['id']) selected @endif value="{{ $user['id'] }}">
+                                {{ $user['firstName'] }} {{ $user['secondName'] }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -35,9 +35,10 @@
                         <label for="duration" class="form-label">Duration</label>
                         <select class="form-select" id="duration" name="duration" onchange="syncAmount()" required>
                             <option hidden>Select Duration</option>
-                            <option value="1 Month" @if ($data['duration'] == '1 Month') selected @endif>1 Month</option>
-                            <option value="3 Months" @if ($data['duration'] == '3 Months') selected @endif>3 Months</option>
-                            <option value="12 Months" @if ($data['duration'] == '12 Months') selected @endif>12 Months
+                            <option value="1 Month" @if ($data['duration']=='1 Month' ) selected @endif>1 Month</option>
+                            <option value="3 Months" @if ($data['duration']=='3 Months' ) selected @endif>3 Months
+                            </option>
+                            <option value="12 Months" @if ($data['duration']=='12 Months' ) selected @endif>12 Months
                             </option>
                         </select>
                     </div>
@@ -47,9 +48,9 @@
                         <select class="form-select" id="pbt" name="pbt" onchange="syncPBT()">
                             <option disabled>Select PBT</option>
                             @foreach ($data_pbt as $pbt)
-                                <option @if ($data['pbt'] == $pbt['name']) selected @endif value="{{ $pbt['name'] }}">
-                                    {{ $pbt['name'] }}
-                                </option>
+                            <option @if ($data['pbt']==$pbt['name']) selected @endif value="{{ $pbt['name'] }}">
+                                {{ $pbt['name'] }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -59,10 +60,10 @@
                         <select class="form-select" id="location" name="location" onchange="syncLocation()">
                             <option disabled>Select Location</option>
                             @foreach ($data_pbt as $pbt)
-                                <option @if ($data['location'] == $pbt['description']) selected @endif
-                                    value="{{ $pbt['description'] }}">
-                                    {{ $pbt['description'] }}
-                                </option>
+                            <option @if ($data['location']==$pbt['description']) selected @endif
+                                value="{{ $pbt['description'] }}">
+                                {{ $pbt['description'] }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -77,21 +78,19 @@
                         <select class="form-select" id="promotionId" name="promotionId">
                             <option hidden>Select Promotion</option>
                             @if (count($data_promotions) > 0)
-                                @foreach ($data_promotions as $promotion)
-                                    @if (
-                                        \Carbon\Carbon::now()->between(
-                                            \Carbon\Carbon::parse($promotion['date']),
-                                            \Carbon\Carbon::parse($promotion['expiredDate'])))
-                                        <option
-                                            @if (isset($data['event'])) @if ($data['event']['id'] == $promotion['id']) selected @endif
-                                            @endif
-                                            value="{{ $promotion['id'] }}">
-                                            {{ $promotion['title'] }}
-                                        </option>
-                                    @endif
-                                @endforeach
+                            @foreach ($data_promotions as $promotion)
+                            @if (
+                            \Carbon\Carbon::now()->between(
+                            \Carbon\Carbon::parse($promotion['date']),
+                            \Carbon\Carbon::parse($promotion['expiredDate'])))
+                            <option @if (isset($data['event'])) @if ($data['event']['id']==$promotion['id']) selected
+                                @endif @endif value="{{ $promotion['id'] }}">
+                                {{ $promotion['title'] }}
+                            </option>
+                            @endif
+                            @endforeach
                             @else
-                                <option disabled>No Promotion Available</option>
+                            <option disabled>No Promotion Available</option>
                             @endif
 
                         </select>
